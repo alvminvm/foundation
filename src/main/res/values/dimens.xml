@@ -1,0 +1,23 @@
+<resources>
+    <!-- 导航栏高度 -->
+    <dimen name="action_bar_height">48dp</dimen>
+
+    <!--字体大小-->
+    <dimen name="font_caption">14sp</dimen>
+    <dimen name="font_body">16sp</dimen>
+    <dimen name="font_button">16sp</dimen>
+    <dimen name="font_sub_headline">18sp</dimen>
+    <dimen name="font_sub_title">20sp</dimen>
+    <dimen name="font_title">22sp</dimen>
+    <dimen name="font_headline">24sp</dimen>
+    <dimen name="font_x_title">30sp</dimen>
+    <dimen name="font_display_1">34sp</dimen>
+    <dimen name="font_display_2">48sp</dimen>
+
+    <!--其他常用-->
+    <dimen name="divider">1px</dimen>
+    <dimen name="padding">8dp</dimen>
+    <dimen name="padding_content">16dp</dimen>
+    <dimen name="margin">8dp</dimen>
+    <dimen name="space">4dp</dimen>
+</resources>
