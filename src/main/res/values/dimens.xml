@@ -1,6 +1,11 @@
 <resources>
     <!-- 导航栏高度 -->
     <dimen name="action_bar_height">48dp</dimen>
+    <dimen name="bottom_nav_bar">56dp</dimen>
+    <!--bottom bar 的图标大小一般为 24 x 24dp icon-->
+    <dimen name="bottom_nav_bar_padding_top">6dp</dimen>
+    <dimen name="bottom_nav_bar_padding_bottom">10dp</dimen>
+    <dimen name="bottom_nav_bar_space">6dp</dimen>
 
     <!--字体大小-->
     <dimen name="font_caption">14sp</dimen>

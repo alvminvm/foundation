@@ -17,4 +17,8 @@ open class BaseFragment: Fragment() {
             (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
         }
     }
+
+    fun setTitle(title: String) {
+        titleTv?.text = title
+    }
 }
