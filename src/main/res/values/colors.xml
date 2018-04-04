@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">@color/white</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="navigateIcon">@color/black</color>
+
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
 

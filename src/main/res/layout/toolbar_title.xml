@@ -8,55 +8,28 @@
     android:theme="@style/AppTheme.AppBarOverlay"
     app:elevation="0dp">
 
-    <android.support.design.widget.CollapsingToolbarLayout
-        android:id="@+id/toolbarLayout"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:contentScrim="?attr/colorPrimary"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:theme="@style/AppTheme.AppBarOverlay"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:toolbarId="@+id/toolbar">
+        >
 
-
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:layout_gravity="top"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:theme="@style/AppTheme.AppBarOverlay"
-            app:layout_collapseMode="pin"
-            >
-            <!--app:layout_scrollFlags="scroll|enterAlways"-->
-
-            <TextView
-                android:id="@+id/titleTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textColor="@color/font_main"
-                android:maxLines="1"
-                tools:text="这是标题"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                app:layout_collapseMode="pin"
-                />
-
-        </android.support.v7.widget.Toolbar>
-
-        <com.youth.banner.Banner
-            android:id="@+id/banner"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginBottom="@dimen/margin"
-            app:layout_collapseMode="parallax"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/font_main"
+            android:maxLines="1"
+            tools:text="这是标题"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             />
 
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="@dimen/divider"-->
-            <!--android:background="@color/divider"/>-->
-    </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.v7.widget.Toolbar>
 
 </android.support.design.widget.AppBarLayout>
