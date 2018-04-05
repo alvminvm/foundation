@@ -18,9 +18,10 @@ open class BaseActivity: AppCompatActivity() {
     }
 
     override fun setTitle(title: CharSequence?) {
-        if (toolbar == null) {
+        if (titleTv == null) {
             super.setTitle(title)
         } else {
+            super.setTitle("")
             titleTv.text = title
         }
     }

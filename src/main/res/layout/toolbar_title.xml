@@ -24,7 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/font_main"
             android:maxLines="1"
             tools:text="这是标题"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"

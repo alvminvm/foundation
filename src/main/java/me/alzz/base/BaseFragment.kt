@@ -15,6 +15,7 @@ open class BaseFragment: Fragment() {
         super.onActivityCreated(savedInstanceState)
         toolbar?.let {
             (activity as? AppCompatActivity)?.setSupportActionBar(toolbar)
+            (activity as? AppCompatActivity)?.supportActionBar?.setDisplayShowTitleEnabled(false)
         }
     }
 
