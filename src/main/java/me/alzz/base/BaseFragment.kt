@@ -1,6 +1,7 @@
 package me.alzz.base
 
 import android.os.Bundle
+import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.toolbar_title.*
@@ -19,7 +20,8 @@ open class BaseFragment: Fragment() {
         }
     }
 
-    fun setTitle(title: String) {
+    fun setTitle(@StringRes titleId: Int) {
+        val title = getString(titleId)
         titleTv?.text = title
     }
 }
