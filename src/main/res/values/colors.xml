@@ -10,7 +10,7 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
 
-    <color name="divider">#BDBDBD</color>
+    <color name="divider">#7FBDBDBD</color>
 
     <!--<color name="primary">#FFDD4041</color>-->
     <!--<color name="primary_80">#af2526</color>-->
@@ -20,4 +20,5 @@
     <color name="font_main">#212121</color>
     <color name="font_secondary">#757575</color>
     <color name="font_hint">#a4a4a4</color>
+    <color name="font_orange">#FF5722</color>
 </resources>

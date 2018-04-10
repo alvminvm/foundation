@@ -8,6 +8,7 @@
     <dimen name="bottom_nav_bar_space">6dp</dimen>
 
     <!--字体大小-->
+    <dimen name="font_hint">12sp</dimen>
     <dimen name="font_caption">14sp</dimen>
     <dimen name="font_body">16sp</dimen>
     <dimen name="font_button">16sp</dimen>
