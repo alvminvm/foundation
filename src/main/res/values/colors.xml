@@ -17,6 +17,7 @@
 
     <color name="font_primary_dark">@color/colorPrimaryDark</color>
     <color name="font_white">#ffffffff</color>
+    <color name="font_transparent_white">#dfffffff</color>
     <color name="font_main">#212121</color>
     <color name="font_secondary">#757575</color>
     <color name="font_hint">#a4a4a4</color>
