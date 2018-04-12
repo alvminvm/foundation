@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">@android:color/darker_gray</color>
     <color name="colorPrimaryLight">@color/white</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="background">#F5F5F5</color>
 
     <color name="navigateIcon">@color/white</color>
 
