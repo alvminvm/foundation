@@ -3,6 +3,8 @@ package me.alzz.base
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.util.Log
+import android.widget.Toast
 
 /**
  * Context 下的工具方法
@@ -32,4 +34,31 @@ fun Context.isPkgInstalled(pkg: String): Boolean {
     }
 
     return packageInfo != null
+}
+
+/**
+ * 输出调试信息
+ */
+fun Context.toastDebug(message: CharSequence) {
+    if (BuildConfig.DEBUG) {
+        Toast
+                .makeText(this, message, Toast.LENGTH_SHORT)
+                .show()
+    }
+}
+
+/**
+ * Log.d
+ */
+fun Context.logd(msg: String) {
+    Log.d("mqt", msg)
+}
+
+/**
+ * debug 时输出
+ */
+fun Context.debug(msg: String) {
+    if (BuildConfig.DEBUG) {
+        logd(msg)
+    }
 }
