@@ -51,7 +51,7 @@ fun Context.toastDebug(message: CharSequence) {
  * Log.d
  */
 fun Context.logd(msg: String) {
-    Log.d("mqt", msg)
+    Log.d("foundation", msg)
 }
 
 /**
