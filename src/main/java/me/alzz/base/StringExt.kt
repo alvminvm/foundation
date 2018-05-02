@@ -46,6 +46,12 @@ fun CharSequence.findTbItemId(): String? {
             Log.d("StringExt", "found tb id")
             return it.groupValues[1]
         }
+
+        regex = """com/i(\d{9,}).htm""".toRegex()
+        regex.find(this)?.let {
+            Log.d("StringExt", "found item html id")
+            return it.groupValues[1]
+        }
     }
 
     return null
@@ -53,7 +59,7 @@ fun CharSequence.findTbItemId(): String? {
 
 fun CharSequence.findTbShortUrl(): String? {
     if (this.contains("tb.cn")) {
-        val regex = """(http://m\.tb\.cn/\w+) """.toRegex()
+        val regex = """(http://m\.tb\.cn/[\w\.]+) """.toRegex()
         regex.find(this)?.let {
             Log.d("StringExt", "found tb short url id")
             return it.groupValues[1]
