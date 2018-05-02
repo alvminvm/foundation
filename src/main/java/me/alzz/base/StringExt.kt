@@ -1,5 +1,7 @@
 package me.alzz.base
 
+import android.util.Log
+
 /**
  * String 工具方法
  * Created by JeremyHe on 2018/4/15.
@@ -20,4 +22,31 @@ fun String.trimZero(): String {
     }
 
     return result
+}
+
+/**
+ * 查找淘宝商品 Id
+ */
+fun CharSequence.findTbItemId(): String? {
+    if (this.contains("taobao.com") || this.contains("tmall.com")) {
+        var regex = """item[iI]d=(\d*)""".toRegex()
+        regex.find(this)?.let {
+            Log.d("StringExt", "found tb item id")
+            return it.groupValues[1]
+        }
+
+//        regex = """sku[iI]d=(\d*)""".toRegex()
+//        regex.find(this)?.let {
+//            Log.d("StringExt", "found tb sku id")
+//            return it.groupValues[1]
+//        }
+
+        regex = """[?&]id=(\d{9,})""".toRegex()
+        regex.find(this)?.let {
+            Log.d("StringExt", "found tb id")
+            return it.groupValues[1]
+        }
+    }
+
+    return null
 }

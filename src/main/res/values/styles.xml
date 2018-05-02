@@ -10,6 +10,7 @@
         <item name="android:textColorPrimary">@color/font_main</item>
         <item name="actionBarSize">@dimen/action_bar_height</item>
         <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <!--标题栏-->
