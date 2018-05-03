@@ -57,11 +57,29 @@ fun CharSequence.findTbItemId(): String? {
     return null
 }
 
+/**
+ * 查询淘口令中的短链
+ */
 fun CharSequence.findTbShortUrl(): String? {
     if (this.contains("tb.cn")) {
         val regex = """(http://m\.tb\.cn/[\w\.]+) """.toRegex()
         regex.find(this)?.let {
             Log.d("StringExt", "found tb short url id")
+            return it.groupValues[1]
+        }
+    }
+
+    return null
+}
+
+/**
+ * 查找商品名称
+ */
+fun CharSequence.findTbProductName(): String? {
+    if (this.contains("【")) {
+        val regex = """【(\w+)】""".toRegex()
+        regex.find(this)?.let {
+            Log.d("StringExt", "found tb product name")
             return it.groupValues[1]
         }
     }
