@@ -76,13 +76,21 @@ fun CharSequence.findTbShortUrl(): String? {
  * 查找商品名称
  */
 fun CharSequence.findTbProductName(): String? {
+    var name: String? = null
     if (this.contains("【")) {
-        val regex = """【(\w+)】""".toRegex()
-        regex.find(this)?.let {
-            Log.d("StringExt", "found tb product name")
-            return it.groupValues[1]
+        if (this[0] == '【') {
+            val regex = """【(\S+)】""".toRegex()
+            regex.find(this)?.let {
+                Log.d("StringExt", "found tb product name")
+                name = it.groupValues[1]
+            }
+        } else {
+            name = this.substring(0, this.indexOf("【"))
         }
+    } else if (this.contains("手淘") || this.contains("淘宝") || this.contains("天猫")) {
+        name = this.lines()[0]
     }
 
-    return null
+    name?.let { if (name!!.contains("分享")) name = null }
+    return name
 }
