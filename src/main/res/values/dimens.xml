@@ -6,6 +6,9 @@
     <dimen name="bottom_nav_bar_padding_top">6dp</dimen>
     <dimen name="bottom_nav_bar_padding_bottom">10dp</dimen>
     <dimen name="bottom_nav_bar_space">6dp</dimen>
+    <!--标题字体大小-->
+    <dimen name="toolbar_title">@dimen/font_body</dimen>
+    <dimen name="toolbar_sub_title">@dimen/font_hint</dimen>
 
     <!--字体大小-->
     <dimen name="font_hint">12sp</dimen>
