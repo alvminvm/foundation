@@ -1,4 +1,4 @@
-package me.alzz.base
+package me.alzz.ext
 
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment

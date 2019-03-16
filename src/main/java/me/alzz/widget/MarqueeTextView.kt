@@ -1,4 +1,4 @@
-package me.alzz.base.widget
+package me.alzz.widget
 
 import android.content.Context
 import android.util.AttributeSet

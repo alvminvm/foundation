@@ -1,10 +1,11 @@
-package me.alzz.base
+package me.alzz.ext
 
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.util.Log
 import android.widget.Toast
+import me.alzz.base.BuildConfig
 
 /**
  * Context 下的工具方法

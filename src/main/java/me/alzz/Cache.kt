@@ -1,4 +1,4 @@
-package me.alzz.base
+package me.alzz
 
 import android.content.Context
 import com.google.gson.Gson
