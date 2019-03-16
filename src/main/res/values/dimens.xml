@@ -6,6 +6,9 @@
     <dimen name="bottom_nav_bar_padding_top">6dp</dimen>
     <dimen name="bottom_nav_bar_padding_bottom">10dp</dimen>
     <dimen name="bottom_nav_bar_space">6dp</dimen>
+    <!--标题字体大小-->
+    <dimen name="toolbar_title">@dimen/font_body</dimen>
+    <dimen name="toolbar_sub_title">@dimen/font_hint</dimen>
 
     <!--字体大小-->
     <dimen name="font_hint">12sp</dimen>
@@ -22,10 +25,11 @@
 
     <!--其他常用-->
     <dimen name="divider">1px</dimen>
-    <dimen name="padding">8dp</dimen>
-    <dimen name="padding_content">16dp</dimen>
-    <dimen name="margin">8dp</dimen>
     <dimen name="space">4dp</dimen>
+    <dimen name="padding">8dp</dimen>
+    <dimen name="margin">8dp</dimen>
+    <dimen name="margin_large">12dp</dimen>
+    <dimen name="padding_content">16dp</dimen>
     <dimen name="button_with_margin">40dp</dimen>
     <dimen name="button">48dp</dimen>
 </resources>

@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity
 /**
  * 生成 fragment 的 tag
  */
-fun AppCompatActivity.tag(clazz: Class<*>) = this.javaClass.simpleName + "." + clazz.simpleName
+fun AppCompatActivity.tag(clazz: Class<*>) = this.javaClass.canonicalName + "." + clazz.canonicalName
 
 /**
  * 获取 fragment

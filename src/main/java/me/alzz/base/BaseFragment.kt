@@ -22,6 +22,10 @@ open class BaseFragment: Fragment() {
 
     fun setTitle(@StringRes titleId: Int) {
         val title = getString(titleId)
+        setTitle(title)
+    }
+
+    fun setTitle(title: String) {
         titleTv?.text = title
     }
 }
