@@ -1,8 +1,8 @@
 package me.alzz.bus
 
 import android.arch.lifecycle.*
-import com.jeremyliao.liveeventbus.LiveEventBus
-import com.jeremyliao.liveeventbus.LiveEventBus.Observable
+import android.os.Looper
+import java.lang.Exception
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -13,12 +13,16 @@ class Event<T>: ReadOnlyProperty<Any?, Event<T>> {
     @Suppress("UNCHECKED_CAST")
     override fun getValue(thisRef: Any?, property: KProperty<*>): Event<T> {
         name = property.name
-        liveData = LiveEventBus.get().with(name) as MutableLiveData<T>
+        liveData = LiveBus.get().with(name) as BusLiveData<T>
         return this
     }
 
     fun send(data: T) {
-        liveData.value = data
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            liveData.postValue(data)
+        } else {
+            liveData.value = data
+        }
     }
 
     fun observe(owner: LifecycleOwner, action: (data: T) -> Unit) {
@@ -29,13 +33,11 @@ class Event<T>: ReadOnlyProperty<Any?, Event<T>> {
     }
 
     fun sticky(owner: LifecycleOwner, action: (data: T) -> Unit) {
-        if (liveData !is Observable<*>) {
-            throw Exception("无法对聚合消息使用此方法")
+        if (liveData !is BusLiveData) {
+            throw Exception("不支持 sticky")
         }
-
         @Suppress("UNCHECKED_CAST")
-        val o = liveData as Observable<T>
-        o.observeSticky(owner, Observer {
+        (liveData as BusLiveData).observeSticky(owner, Observer {
             it ?: return@Observer
             action.invoke(it)
         })
@@ -43,7 +45,7 @@ class Event<T>: ReadOnlyProperty<Any?, Event<T>> {
 
     @Suppress("UNCHECKED_CAST")
     operator fun plus(e: Event<*>): Event<String> {
-        val event = if (liveData is MediatorLiveData) {
+        val event = if (liveData is MediatorLiveData<*>) {
             this as Event<String>
         } else {
             val event = Event<String>()
@@ -53,9 +55,9 @@ class Event<T>: ReadOnlyProperty<Any?, Event<T>> {
 
         val bus = event.liveData as MediatorLiveData<String>
         if (this != event) {
-            bus.addSource(this.liveData as LiveData<*>) { bus.value = this.name }
+            bus.addSource(this.liveData as LiveData<*>) { bus.postValue(this.name) }
         }
-        bus.addSource(e.liveData as LiveData<*>) { bus.value = e.name }
+        bus.addSource(e.liveData as LiveData<*>) { bus.postValue(e.name) }
 
         return event
     }
