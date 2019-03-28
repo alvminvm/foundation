@@ -7,7 +7,7 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 class Event<T>: ReadOnlyProperty<Any?, Event<T>> {
-    private lateinit var liveData: MutableLiveData<T>
+    private lateinit var liveData: BusLiveData<T>
     private var name = ""
 
     @Suppress("UNCHECKED_CAST")
@@ -33,11 +33,8 @@ class Event<T>: ReadOnlyProperty<Any?, Event<T>> {
     }
 
     fun sticky(owner: LifecycleOwner, action: (data: T) -> Unit) {
-        if (liveData !is BusLiveData) {
-            throw Exception("不支持 sticky")
-        }
         @Suppress("UNCHECKED_CAST")
-        (liveData as BusLiveData).observeSticky(owner, Observer {
+        liveData.observeSticky(owner, Observer {
             it ?: return@Observer
             action.invoke(it)
         })
@@ -45,15 +42,15 @@ class Event<T>: ReadOnlyProperty<Any?, Event<T>> {
 
     @Suppress("UNCHECKED_CAST")
     operator fun plus(e: Event<*>): Event<String> {
-        val event = if (liveData is MediatorLiveData<*>) {
+        val event = if (this.name.isEmpty()) {
             this as Event<String>
         } else {
             val event = Event<String>()
-            event.liveData = MediatorLiveData<String>()
+            event.liveData = BusLiveData()
             event
         }
 
-        val bus = event.liveData as MediatorLiveData<String>
+        val bus = event.liveData
         if (this != event) {
             bus.addSource(this.liveData as LiveData<*>) { bus.postValue(this.name) }
         }
