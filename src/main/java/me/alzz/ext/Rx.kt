@@ -4,8 +4,8 @@ import android.content.Context
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.internal.disposables.DisposableContainer
 import io.reactivex.schedulers.Schedulers
 import me.alzz.Cache
 
@@ -35,7 +35,7 @@ fun <T> Observable<T>.observeOnIo(): Observable<T> {
     return this.observeOn(Schedulers.io())
 }
 
-fun Disposable.disposeBy(d: CompositeDisposable): Disposable {
+fun Disposable.disposeBy(d: DisposableContainer): Disposable {
     d.add(this)
     return this
 }
