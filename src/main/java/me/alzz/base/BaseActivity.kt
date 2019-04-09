@@ -1,7 +1,6 @@
 package me.alzz.base
 
 import android.support.v7.app.AppCompatActivity
-import android.view.Gravity
 import kotlinx.android.synthetic.main.toolbar_title.*
 
 /**
@@ -14,12 +13,13 @@ open class BaseActivity : AppCompatActivity() {
 
         toolbar?.let {
             setSupportActionBar(toolbar)
-            supportActionBar?.setDisplayShowTitleEnabled(false)
+            supportActionBar?.setDisplayShowTitleEnabled(toolbar.title.isNotEmpty())
         }
     }
 
     override fun setTitle(title: CharSequence?) {
         if (titleTv == null) {
+            supportActionBar?.setDisplayShowTitleEnabled(true)
             super.setTitle(title)
         } else {
             super.setTitle("")
@@ -32,7 +32,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun setTitleGravity(gravity: Int) {
-        titleTv.gravity = gravity
+        titleTv?.gravity = gravity
     }
 
 }

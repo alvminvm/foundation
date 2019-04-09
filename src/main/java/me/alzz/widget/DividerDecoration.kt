@@ -10,7 +10,7 @@ import android.view.View
  * Created by JeremyHe on 2019/4/7.
  */
 class DividerDecoration(val width: Int): RecyclerView.ItemDecoration() {
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
         val layoutMgr = parent.layoutManager
         when (layoutMgr) {
