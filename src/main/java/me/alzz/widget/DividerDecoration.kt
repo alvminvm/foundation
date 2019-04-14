@@ -25,7 +25,8 @@ class DividerDecoration(val width: Int): RecyclerView.ItemDecoration() {
         val halfWidth = width / 2
         outRect.left = halfWidth
         outRect.right = halfWidth
-        outRect.top = if (position < spanCount) 0 else width
+//        outRect.top = if (position < spanCount) 0 else width
+        outRect.bottom = width
 
         when (lp.spanIndex) {
             0 -> outRect.left = width
