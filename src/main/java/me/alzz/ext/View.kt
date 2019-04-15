@@ -7,6 +7,9 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
+import com.jakewharton.rxbinding2.view.RxView
+import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 
 /**
  * 对 view 的一些工具方法
@@ -40,4 +43,8 @@ fun View.useBtnEffect() {
         }
         false
     }
+}
+
+fun View.throttleClick(action: () -> Unit): Disposable {
+    return RxView.clicks(this).throttleFirst(1, TimeUnit.SECONDS).subscribe { action.invoke() }
 }
