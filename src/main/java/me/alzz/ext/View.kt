@@ -45,6 +45,6 @@ fun View.useBtnEffect() {
     }
 }
 
-fun View.throttleClick(action: () -> Unit): Disposable {
-    return RxView.clicks(this).throttleFirst(1, TimeUnit.SECONDS).subscribe { action.invoke() }
+fun View.click(action: (View) -> Unit): Disposable {
+    return RxView.clicks(this).throttleFirst(1, TimeUnit.SECONDS).subscribe { action.invoke(this) }
 }
