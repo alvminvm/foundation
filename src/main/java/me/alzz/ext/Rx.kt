@@ -3,6 +3,7 @@ package me.alzz.ext
 import android.content.Context
 import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.SingleSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.internal.disposables.DisposableContainer
@@ -18,6 +19,9 @@ import me.alzz.Cache
  * 线程切换
  */
 fun <T> Observable<T>.applySchedulers(): Observable<T> {
+    return this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+}
+fun <T> Single<T>.applySchedulers(): Single<T> {
     return this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
 }
 

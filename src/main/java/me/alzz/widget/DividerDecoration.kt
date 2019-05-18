@@ -12,16 +12,16 @@ import android.view.View
 class DividerDecoration(val width: Int): RecyclerView.ItemDecoration() {
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
-        val layoutMgr = parent.layoutManager
-        when (layoutMgr) {
+        when (val layoutMgr = parent.layoutManager) {
             is StaggeredGridLayoutManager -> staggerDivider(outRect, view, layoutMgr, parent)
+            else -> outRect.set(width, width, width, width)
         }
     }
 
     private fun staggerDivider(outRect: Rect, view: View, layoutManager: StaggeredGridLayoutManager, parent: RecyclerView) {
         val lp = view.layoutParams as StaggeredGridLayoutManager.LayoutParams
         val spanCount = layoutManager.spanCount
-        val position = parent.getChildAdapterPosition(view)
+//        val position = parent.getChildAdapterPosition(view)
         val halfWidth = width / 2
         outRect.left = halfWidth
         outRect.right = halfWidth
