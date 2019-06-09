@@ -1,5 +1,7 @@
 package me.alzz.ext
 
+import android.animation.Animator
+import android.animation.ValueAnimator
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
@@ -46,5 +48,30 @@ fun View.useBtnEffect() {
 }
 
 fun View.click(action: (View) -> Unit): Disposable {
-    return RxView.clicks(this).throttleFirst(1, TimeUnit.SECONDS).subscribe { action.invoke(this) }
+    return RxView.clicks(this).throttleFirst(700, TimeUnit.MILLISECONDS).subscribe { action.invoke(this) }
+}
+
+fun View.animHeightTo(target: Int, endAction: (()->Unit)?) {
+    val view = this
+    val anim = ValueAnimator.ofInt(view.height, target)
+    anim.addUpdateListener {
+        val h = it.animatedValue as Int
+        view.layoutParams?.apply {
+            height = h
+            view.requestLayout()
+        }
+    }
+
+    anim.addListener(object : Animator.AnimatorListener {
+        override fun onAnimationRepeat(animation: Animator?) { }
+        override fun onAnimationCancel(animation: Animator?) { }
+        override fun onAnimationStart(animation: Animator?) { }
+
+        override fun onAnimationEnd(animation: Animator?) {
+            endAction ?: return
+            view.post(endAction)
+        }
+    })
+
+    anim.start()
 }

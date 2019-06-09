@@ -1,16 +1,20 @@
 package me.alzz.base
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.toolbar_title.*
 
 /**
- * TODO: Add comments
  * Created by JeremyHe on 2018/3/31.
  */
 open class BaseFragment: Fragment() {
+
+    private val h = Handler()
+
+    init { arguments = Bundle() }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -27,5 +31,20 @@ open class BaseFragment: Fragment() {
 
     fun setTitle(title: String) {
         titleTv?.text = title
+    }
+
+    override fun onDestroy() {
+        h.removeCallbacksAndMessages(null)
+        super.onDestroy()
+    }
+
+    protected fun afterAdd(action: () -> Unit) {
+        h.postDelayed({
+            if (isAdded) {
+                action()
+            } else {
+                afterAdd(action)
+            }
+        }, 200)
     }
 }
