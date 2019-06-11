@@ -1,6 +1,7 @@
 package me.alzz.ext
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.util.Log
@@ -61,5 +62,16 @@ fun Context.logd(msg: String) {
 fun Context.debug(msg: String) {
     if (BuildConfig.DEBUG) {
         logd(msg)
+    }
+}
+
+fun Context.goHome(): Boolean {
+    return try {
+        val intent = Intent(Intent.ACTION_MAIN)
+        intent.addCategory(Intent.CATEGORY_HOME)
+        startActivity(intent)
+        true
+    } catch (e: Exception) {
+        false
     }
 }
