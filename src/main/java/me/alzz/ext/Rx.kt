@@ -3,12 +3,12 @@ package me.alzz.ext
 import android.content.Context
 import io.reactivex.Observable
 import io.reactivex.Single
-import io.reactivex.SingleSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.internal.disposables.DisposableContainer
 import io.reactivex.schedulers.Schedulers
 import me.alzz.Cache
+import java.lang.reflect.Type
 
 /**
  * RxJava 扩展方法
@@ -39,6 +39,10 @@ fun <T> Observable<T>.observeOnIo(): Observable<T> {
     return this.observeOn(Schedulers.io())
 }
 
+fun <T> Observable<T>.ignoreError(): Observable<T> {
+    return this.onErrorResumeNext(Observable.empty())
+}
+
 fun Disposable.disposeBy(d: DisposableContainer): Disposable {
     d.add(this)
     return this
@@ -48,15 +52,34 @@ fun Disposable.disposeBy(d: DisposableContainer): Disposable {
  * 缓存结果
  */
 fun <T> Observable<T>.cache(ctx: Context, name: String, type: Class<T>, validDays: Int): Single<T> {
-    val cache = Cache.load(ctx, name, type, validDays).applySchedulers()
+    val cache = Cache.load(ctx, name, validDays, type).applySchedulers().ignoreError()
     val expensive = this
             .applySchedulers()
             .observeOn(Schedulers.io())
             .map { Cache.cache(ctx, name, it); it }
             .observeOn(AndroidSchedulers.mainThread())
+    val useCache = Cache.load(ctx, name, Int.MAX_VALUE, type).applySchedulers()
 
     return Observable
-            .concat(cache, expensive)
+            .concat(cache, expensive, useCache)
             .applySchedulers()
             .firstOrError()
+}
+
+fun <T> Observable<T>.cache(ctx: Context, name: String, validDays: Int, type: Type): Single<T> {
+    val cache = Cache.load<T>(ctx, name, validDays, type).applySchedulers().ignoreError()
+
+    val expensive = this
+        .applySchedulers()
+        .observeOn(Schedulers.io())
+        .map { Cache.cache(ctx, name, it); it }
+        .observeOn(AndroidSchedulers.mainThread())
+        .ignoreError()
+
+    val useCache = Cache.load<T>(ctx, name, Int.MAX_VALUE, type).applySchedulers()
+
+    return Observable
+        .concat(cache, expensive, useCache)
+        .applySchedulers()
+        .firstOrError()
 }
