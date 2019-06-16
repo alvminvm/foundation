@@ -12,21 +12,21 @@ import java.lang.reflect.Type
  */
 class Cache {
     companion object {
-        fun <T> load(ctx: Context, name: String, validDays: Int, type: Class<T>): Observable<T> {
+        fun <T> load(ctx: Context, name: String, validDays: Float, type: Class<T>): Observable<T> {
             return load(ctx, name, validDays) {
                 val gson = Gson()
                 gson.fromJson(it, type)
             }
         }
 
-        fun <T> load(ctx: Context, name: String, validDays: Int, type: Type): Observable<T> {
+        fun <T> load(ctx: Context, name: String, validDays: Float, type: Type): Observable<T> {
             return load(ctx, name, validDays) {
                 val gson = Gson()
                 gson.fromJson(it, type) as T
             }
         }
 
-        fun <T> load(ctx: Context, name: String, validDays: Int, block: (String)->T): Observable<T> {
+        fun <T> load(ctx: Context, name: String, validDays: Float, block: (String)->T): Observable<T> {
             return Observable
                 .create {
                     val cache = File(ctx.cacheDir, name)
