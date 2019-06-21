@@ -14,8 +14,8 @@ class Progress {
             activity ?: return
 
             val dialog = progressMap[activity]
-                ?: activity.supportFragmentManager.findFragmentByTag(TAG) as? ProgressFragment
-                ?: ProgressFragment().apply {
+                ?: (activity.supportFragmentManager.findFragmentByTag(TAG) as? ProgressFragment
+                ?: ProgressFragment()).apply {
                     progressMap[activity] = this
                     activity.lifecycle.addObserver(GenericLifecycleObserver { _, event ->
                         if (event == Lifecycle.Event.ON_DESTROY) {
@@ -26,7 +26,9 @@ class Progress {
             }
 
             dialog.setMessage(message)
-            dialog.show(activity.supportFragmentManager, TAG)
+            if (!dialog.isAdded) {
+                dialog.show(activity.supportFragmentManager, TAG)
+            }
         }
 
         fun dismiss(activity: Activity?) {
