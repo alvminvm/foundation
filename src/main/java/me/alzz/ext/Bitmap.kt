@@ -38,6 +38,5 @@ fun Bitmap.shrink(maxWidth: Int, maxHeight: Int, minWidth: Int = 0, minHeight: I
         Rect(0, 0, this.width, this.height),
         Rect(0, 0, w, h),
         null)
-    this.recycle()
     return bm
 }
