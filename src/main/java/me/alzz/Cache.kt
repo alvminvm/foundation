@@ -3,7 +3,9 @@ package me.alzz
 import android.content.Context
 import com.google.gson.Gson
 import io.reactivex.Observable
+import me.alzz.crypt.AesCbcWithIntegrity
 import java.io.File
+import java.lang.Exception
 import java.lang.reflect.Type
 
 /**
@@ -41,7 +43,17 @@ class Cache {
                         return@create
                     }
 
-                    val data = cache.readText()
+                    val encrypted = cache.readText()
+
+                    val data = try {
+                        val list = encrypted.split("!")
+                        val key = AesCbcWithIntegrity.keys(list[0])
+                        val civ = AesCbcWithIntegrity.CipherTextIvMac(list[1])
+                        AesCbcWithIntegrity.decryptString(civ, key)
+                    } catch (e: Exception) {
+                        encrypted
+                    }
+
                     val result = block(data)
                     it.onNext(result)
                     it.onComplete()
@@ -62,7 +74,10 @@ class Cache {
             }
 
             val json = transform(data)
-            cache.bufferedWriter().use { it.write(json) }
+            val key = AesCbcWithIntegrity.generateKey()
+            val civ = AesCbcWithIntegrity.encrypt(json, key)
+            val encrypted = "$key!$civ"
+            cache.bufferedWriter().use { it.write(encrypted) }
         }
     }
 }
