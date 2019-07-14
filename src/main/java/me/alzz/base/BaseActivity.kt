@@ -1,6 +1,7 @@
 package me.alzz.base
 
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import kotlinx.android.synthetic.main.toolbar_title.*
 
 /**
@@ -33,6 +34,16 @@ open class BaseActivity : AppCompatActivity() {
 
     fun setTitleGravity(gravity: Int) {
         titleTv?.gravity = gravity
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }
