@@ -12,14 +12,18 @@ import me.alzz.base.R
  * Created by JeremyHe on 2019/4/17.
  */
 class ProgressFragment: DialogFragment() {
+
+    init {
+        setStyle(STYLE_NO_TITLE, 0)
+        isCancelable = false
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.progress_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        setStyle(STYLE_NO_TITLE, 0)
-        isCancelable = false
         val msg = arguments?.getString(EXTRA_MESSAGE) ?: getString(R.string.loading)
         messageTv.text = msg
     }

@@ -10,7 +10,7 @@ class Progress {
         private const val TAG = "Progress"
         private val progressMap = mutableMapOf<Activity, ProgressFragment>()
 
-        fun show(activity: AppCompatActivity?, message: String) {
+        fun show(activity: AppCompatActivity?, message: String, isCancelable: Boolean = false) {
             activity ?: return
 
             val dialog = progressMap[activity]
@@ -19,12 +19,13 @@ class Progress {
                     progressMap[activity] = this
                     activity.lifecycle.addObserver(GenericLifecycleObserver { _, event ->
                         if (event == Lifecycle.Event.ON_DESTROY) {
-                            progressMap[activity]?.dismissAllowingStateLoss()
+                            progressMap[activity]?.dismissSafely()
                             progressMap.remove(activity)
                         }
                     })
             }
 
+            dialog.isCancelable = isCancelable
             dialog.setMessage(message)
             if (!dialog.isAdded) {
                 dialog.show(activity.supportFragmentManager, TAG)
@@ -34,7 +35,15 @@ class Progress {
         fun dismiss(activity: Activity?) {
             activity ?: return
 
-            progressMap[activity]?.dismissAllowingStateLoss()
+            progressMap[activity]?.dismissSafely()
+        }
+
+        fun ProgressFragment.dismissSafely() {
+            try {
+                this.dismiss()
+            } catch (e: Exception) {
+                this.dismissAllowingStateLoss()
+            }
         }
     }
 }
