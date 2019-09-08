@@ -1,5 +1,6 @@
 package me.alzz.base.mvvm
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
@@ -21,8 +22,8 @@ open class BaseVM: ViewModel(), DisposableContainer {
     private val disposableMap = mutableMapOf<String, Disposable>()
 
     init {
-        progress.addSource(desc) { progress.value = "" }
-        progress.addSource(error) { progress.value = "" }
+        progress emptyBy desc
+        progress emptyBy error
     }
 
     override fun onCleared() {
@@ -35,6 +36,10 @@ open class BaseVM: ViewModel(), DisposableContainer {
     override fun remove(d: Disposable) = this.d.remove(d)
 
     override fun delete(d: Disposable) = this.d.delete(d)
+
+    infix fun <S> MediatorLiveData<String>.emptyBy(source: LiveData<S>) {
+        this.addSource(source) { this.value = "" }
+    }
 
     fun dispose(taskName: String) {
         disposableMap[taskName]?.apply {
