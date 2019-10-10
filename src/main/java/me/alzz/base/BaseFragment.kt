@@ -14,6 +14,12 @@ open class BaseFragment: Fragment() {
 
     private val h = Handler()
 
+    var title: String? = null
+        set(value) {
+            field = value
+            afterAdd { titleTv?.text = title }
+        }
+
     init { arguments = Bundle() }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -25,12 +31,7 @@ open class BaseFragment: Fragment() {
     }
 
     fun setTitle(@StringRes titleId: Int) {
-        val title = getString(titleId)
-        setTitle(title)
-    }
-
-    fun setTitle(title: String) {
-        titleTv?.text = title
+        title = getString(titleId)
     }
 
     override fun onDestroy() {
