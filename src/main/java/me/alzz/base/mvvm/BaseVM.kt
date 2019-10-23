@@ -41,6 +41,11 @@ open class BaseVM: ViewModel(), DisposableContainer {
         this.addSource(source) { this.value = "" }
     }
 
+    infix fun <T> MutableLiveData<T>.n(target: MediatorLiveData<String>): MutableLiveData<T> {
+        target.addSource(this) { target.value = "" }
+        return this
+    }
+
     fun dispose(taskName: String) {
         disposableMap[taskName]?.apply {
             dispose()
