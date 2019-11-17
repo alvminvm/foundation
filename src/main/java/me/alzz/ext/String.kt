@@ -25,6 +25,17 @@ fun String.trimZero(): String {
 }
 
 /**
+ * 给手机号增加空格
+ */
+fun String.beautyPhone(): String {
+    return when {
+        this.length > 7 -> "${substring(0..2)} ${substring(3..6)} ${substring(7)}"
+        this.length > 3 -> "${substring(0..2)} ${substring(3)}"
+        else -> this
+    }
+}
+
+/**
  * 查找淘宝商品 Id
  */
 fun CharSequence.findTbItemId(): String? {

@@ -75,3 +75,31 @@ fun View.animHeightTo(target: Int, endAction: (()->Unit)?) {
 
     anim.start()
 }
+
+var View.isVisible: Boolean
+    set(value) {
+        this.visibility = if (value) View.VISIBLE else View.INVISIBLE
+    }
+    get() = this.visibility == View.VISIBLE
+
+var View.isGone: Boolean
+    set(value) {
+        this.visibility = if (value) View.GONE else View.VISIBLE
+    }
+    get() = this.visibility == View.GONE
+
+var Array<out View>.isVisible: Boolean
+    set(value) {
+        this.forEach { it.isVisible = value }
+    }
+    get() = this.all { it.isVisible }
+
+var Array<out View>.isGone: Boolean
+    set(value) {
+        this.forEach { it.isGone = value }
+    }
+    get() = this.all { it.isGone }
+
+
+
+
