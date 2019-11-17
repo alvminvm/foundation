@@ -3,14 +3,14 @@ package me.alzz
 import android.app.Activity
 import android.arch.lifecycle.GenericLifecycleObserver
 import android.arch.lifecycle.Lifecycle
-import android.support.v7.app.AppCompatActivity
+import android.support.v4.app.FragmentActivity
 
 class Progress {
     companion object {
         private const val TAG = "Progress"
         private val progressMap = mutableMapOf<Activity, ProgressFragment>()
 
-        fun show(activity: AppCompatActivity?, message: String, isCancelable: Boolean = false) {
+        fun show(activity: FragmentActivity?, message: String, isCancelable: Boolean = false) {
             activity ?: return
 
             val dialog = progressMap[activity]
