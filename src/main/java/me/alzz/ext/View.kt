@@ -9,7 +9,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
-import com.jakewharton.rxbinding2.view.RxView
+import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
 
@@ -48,7 +48,7 @@ fun View.useBtnEffect() {
 }
 
 fun View.click(action: (View) -> Unit): Disposable {
-    return RxView.clicks(this).throttleFirst(700, TimeUnit.MILLISECONDS).subscribe { action.invoke(this) }
+    return this.clicks().throttleFirst(700, TimeUnit.MILLISECONDS).subscribe { action.invoke(this) }
 }
 
 fun View.animHeightTo(target: Int, endAction: (()->Unit)?) {

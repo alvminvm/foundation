@@ -1,8 +1,8 @@
 package me.alzz.ext
 
-import android.support.annotation.IdRes
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.IdRes
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * Created by JeremyHe on 2018/4/15.

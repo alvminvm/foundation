@@ -1,6 +1,6 @@
 package me.alzz.base.mvvm
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import me.alzz.Progress
 import me.alzz.base.BaseFragment
 import me.alzz.ext.get

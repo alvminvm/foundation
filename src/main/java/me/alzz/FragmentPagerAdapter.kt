@@ -1,12 +1,11 @@
 package me.alzz
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import me.alzz.base.BaseFragment
 
-class FragmentPagerAdapter(fm: FragmentManager, val fragments: Array<Fragment>) : FragmentPagerAdapter(fm) {
+class FragmentPagerAdapter(fm: FragmentManager, val fragments: Array<Fragment>) : androidx.fragment.app.FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val f = super.instantiateItem(container, position)

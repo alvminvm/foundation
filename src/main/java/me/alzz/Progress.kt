@@ -1,9 +1,9 @@
 package me.alzz
 
 import android.app.Activity
-import android.arch.lifecycle.GenericLifecycleObserver
-import android.arch.lifecycle.Lifecycle
-import android.support.v4.app.FragmentActivity
+import androidx.lifecycle.GenericLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.fragment.app.FragmentActivity
 
 class Progress {
     companion object {

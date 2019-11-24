@@ -2,15 +2,15 @@ package me.alzz.base
 
 import android.os.Bundle
 import android.os.Handler
-import android.support.annotation.StringRes
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.toolbar_title.*
 
 /**
  * Created by JeremyHe on 2018/3/31.
  */
-open class BaseFragment: Fragment() {
+open class BaseFragment: androidx.fragment.app.Fragment() {
 
     private val h = Handler()
 
