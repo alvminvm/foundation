@@ -46,6 +46,10 @@ open class BaseVM: ViewModel(), DisposableContainer {
         return this
     }
 
+    fun <T> vmLiveData(): MutableLiveData<T> {
+        return MutableLiveData<T>() n progress
+    }
+
     fun dispose(taskName: String) {
         disposableMap[taskName]?.apply {
             dispose()
