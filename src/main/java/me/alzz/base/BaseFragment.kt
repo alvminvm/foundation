@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.toolbar_title.*
 /**
  * Created by JeremyHe on 2018/3/31.
  */
-open class BaseFragment: androidx.fragment.app.Fragment() {
+open class BaseFragment: Fragment() {
 
     private val h = Handler()
 

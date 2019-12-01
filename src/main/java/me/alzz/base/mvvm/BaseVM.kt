@@ -60,6 +60,6 @@ open class BaseVM: ViewModel(), DisposableContainer {
     fun Disposable.disposeBy(taskName: String) {
         dispose(taskName)
         disposableMap[taskName] = this
-        this.disposeBy(this@BaseVM)
+        disposeBy(this@BaseVM)
     }
 }
