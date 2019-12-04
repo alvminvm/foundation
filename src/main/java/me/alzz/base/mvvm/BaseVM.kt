@@ -15,16 +15,11 @@ import me.alzz.ext.disposeBy
 open class BaseVM: ViewModel(), DisposableContainer {
 
     val progress = MediatorLiveData<String>()
-    val desc = MutableLiveData<String>()
-    val error = MutableLiveData<String>()
+    val desc = vmLiveData<String>()
+    val error = vmLiveData<String>()
 
     private val d = CompositeDisposable()
     private val disposableMap = mutableMapOf<String, Disposable>()
-
-    init {
-        progress emptyBy desc
-        progress emptyBy error
-    }
 
     override fun onCleared() {
         d.dispose()
@@ -46,11 +41,19 @@ open class BaseVM: ViewModel(), DisposableContainer {
         return this
     }
 
+    fun setProgress(msg: String, isCancelable: Boolean = false) {
+        if (isCancelable) {
+            progress.postValue("$msg#cancelable#")
+        } else {
+            progress.postValue(msg)
+        }
+    }
+
     fun <T> vmLiveData(): MutableLiveData<T> {
         return MutableLiveData<T>() n progress
     }
 
-    fun dispose(taskName: String) {
+    private fun dispose(taskName: String) {
         disposableMap[taskName]?.apply {
             dispose()
             remove(d)

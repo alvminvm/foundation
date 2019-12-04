@@ -1,8 +1,10 @@
 package me.alzz.base.mvvm
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProviders
 import me.alzz.Progress
 import me.alzz.ext.get
@@ -16,15 +18,7 @@ import kotlin.reflect.KClass
 fun <T : BaseVM> AppCompatActivity.activity(vmClazz: KClass<T>): Lazy<T> {
     return lazy {
         val vm = get(vmClazz.java)
-        vm.progress.use(this) {
-            if (it.isNullOrEmpty()) {
-                Progress.dismiss(this)
-            } else {
-                Progress.show(this, it)
-            }
-        }
-        vm.desc.use(this) { toast(it) }
-        vm.error.use(this) { toast(it) }
+        bind(vm)
         vm
     }
 }
@@ -36,19 +30,26 @@ fun <T : BaseVM> Fragment.activity(vmClazz: KClass<T>): Lazy<T?> {
     }
 }
 
+private fun <T : BaseVM> LifecycleOwner.bind(vm: T) {
+    val context = this as? Context ?: (this as? Fragment)?.context ?: return
+    vm.progress.use(this) {
+        val activity = context as? FragmentActivity ?: return@use
+        if (it.isNullOrEmpty()) {
+            Progress.dismiss(activity)
+        } else {
+            val msg = it.removeSuffix("#cancelable#")
+            val isCancelable = msg != it
+            Progress.show(activity, msg, isCancelable)
+        }
+    }
+    vm.desc.use(this) { context.toast(it) }
+    vm.error.use(this) { context.toast(it) }
+}
+
 fun <T : BaseVM> Fragment.fragment(vmClazz: KClass<T>): Lazy<T> {
     return lazy {
         val vm = get(vmClazz.java)
-        vm.progress.use(this) {
-            val activity = context as? FragmentActivity ?: return@use
-            if (it.isNullOrEmpty()) {
-                Progress.dismiss(activity)
-            } else {
-                Progress.show(activity, it)
-            }
-        }
-        vm.desc.use(this) { context?.toast(it) }
-        vm.error.use(this) { context?.toast(it) }
+        bind(vm)
         vm
     }
 }
