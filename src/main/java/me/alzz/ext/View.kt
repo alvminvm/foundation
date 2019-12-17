@@ -4,43 +4,46 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
+import android.graphics.Rect
 import android.util.Log
 import android.view.MotionEvent
+import android.view.TouchDelegate
 import android.view.View
 import android.widget.ImageView
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit
 
+
 /**
  * 对 view 的一些工具方法
  * Created by JeremyHe on 2018/4/13.
  */
-fun View.useBtnEffect() {
+fun View.useBtnEffect(darker: Boolean = true) {
     if (!this.isClickable) {
         Log.w("ViewExt", "${this} 必须为 clickable，否则点击效果异常")
     }
 
     this.setOnTouchListener { v, event ->
-        var d: Drawable? = null
-        if (v is ImageView) {
-            d = v.drawable
-        }
-
-        if (d == null) {
-            d = v.background
-        }
-
-        d ?: return@setOnTouchListener false
+        val d = (v as? ImageView)?.drawable
+            ?: v.background
+            ?: return@setOnTouchListener false
 
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                d.setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY)
+                if (darker) {
+                    d.setColorFilter(Color.LTGRAY, PorterDuff.Mode.MULTIPLY)
+                } else {
+                    d.alpha = (0xff * 0.5).toInt()
+                }
             }
             MotionEvent.ACTION_CANCEL,
             MotionEvent.ACTION_UP -> {
-                d.clearColorFilter()
+                if (darker) {
+                    d.clearColorFilter()
+                } else {
+                    d.alpha = 0xff
+                }
             }
         }
         false
@@ -48,7 +51,26 @@ fun View.useBtnEffect() {
 }
 
 fun View.click(action: (View) -> Unit): Disposable {
+    this.useBtnEffect(false)
     return this.clicks().throttleFirst(700, TimeUnit.MILLISECONDS).subscribe { action.invoke(this) }
+}
+
+/**
+ * 扩大 View 的点击区域
+ * @param width 四周扩大的距离。
+ */
+fun View.expandTouchDelegate(width: Int) {
+    val parentView = this.parent as View
+    parentView.post {
+        val rect = Rect()
+        this.getHitRect(rect)
+        // 4个方向增加矩形区域
+        rect.top -= width
+        rect.bottom += width
+        rect.left -= width
+        rect.right += width
+        parentView.touchDelegate = TouchDelegate(rect, this)
+    }
 }
 
 fun View.animHeightTo(target: Int, endAction: (()->Unit)?) {
