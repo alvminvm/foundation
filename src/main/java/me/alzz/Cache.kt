@@ -28,7 +28,7 @@ class Cache {
             }
         }
 
-        fun <T> load(ctx: Context, name: String, validDays: Float, block: (String)->T): Observable<T> {
+        private fun <T> load(ctx: Context, name: String, validDays: Float, block: (String)->T): Observable<T> {
             return Observable
                 .create {
                     val cache = File(ctx.cacheDir, name)
