@@ -17,6 +17,7 @@ class AesCrypt {
         }
 
         //解密
+        @JvmStatic
         fun decrypt(input: String, pwd: String): String {
             val cipher = Cipher.getInstance("AES")
             val keySpec = SecretKeySpec(pwd.toByteArray(), "AES")
