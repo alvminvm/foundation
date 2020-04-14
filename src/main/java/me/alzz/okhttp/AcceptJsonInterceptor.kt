@@ -19,8 +19,8 @@ class AcceptJsonInterceptor: Interceptor {
             return resp.newBuilder().body(ResponseBody.create(resp.body()!!.contentType(), body)).build()
         }
 
-        val start = body.indexOf("{")
-        val end = body.lastIndexOf("}") + 1
+        val start = body.indexOfFirst { it in arrayOf('{', '[') }
+        val end = body.indexOfLast { it in arrayOf('}', ']') } + 1
         if (start < 0 || end <= 0 || body.length == end - start) {
             // 不是 json 或者 json 没问题，直接重新包装返回
             return resp.newBuilder().body(ResponseBody.create(resp.body()!!.contentType(), body)).build()
