@@ -49,8 +49,12 @@ open class BaseVM: ViewModel(), DisposableContainer {
         }
     }
 
-    fun <T> vmLiveData(): MutableLiveData<T> {
-        return MutableLiveData<T>() n progress
+    fun <T> vmLiveData(source: LiveData<T>? = null): MutableLiveData<T> {
+        return if (source == null) {
+            MutableLiveData<T>()
+        } else {
+            MediatorLiveData<T>().apply { addSource(source) { this.postValue(it) } }
+        } n progress
     }
 
     private fun dispose(taskName: String) {

@@ -5,6 +5,7 @@
     <color name="colorPrimaryLight">@color/white</color>
     <color name="colorAccent">#FF4081</color>
     <color name="background">#F5F5F5</color>
+    <color name="popup_background">#3B3B3B</color>
 
     <color name="navigateIcon">@color/white</color>
 
