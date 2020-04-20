@@ -10,8 +10,11 @@ import android.view.MotionEvent
 import android.view.TouchDelegate
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.disposables.Disposable
+import java.sql.Struct
 import java.util.concurrent.TimeUnit
 
 
@@ -53,6 +56,15 @@ fun View.useBtnEffect(darker: Boolean = true) {
 fun View.click(action: (View) -> Unit): Disposable {
     this.useBtnEffect(false)
     return this.clicks().throttleFirst(700, TimeUnit.MILLISECONDS).subscribe { action.invoke(this) }
+}
+
+fun TextView.alert(title: String, msg: String, positive: String = text.toString(), action: ()->Unit) = this.click {
+    AlertDialog.Builder(context)
+        .setPositiveButton(positive) { dialog, _ -> action(); dialog.dismiss() }
+        .setNegativeButton("取消") { dialog, _ -> dialog.dismiss() }
+        .setTitle(title)
+        .setMessage(msg)
+        .show()
 }
 
 /**
