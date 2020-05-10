@@ -3,5 +3,5 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="0.25dp"
-    android:background="@drawable/divider"
+    android:background="@drawable/divider_left_18"
     app:layout_constraintBottom_toBottomOf="parent" />
