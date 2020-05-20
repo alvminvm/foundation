@@ -11,24 +11,24 @@ class AcceptJsonInterceptor: Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
                 .newBuilder()
-                .addHeader("Accept", "application/json,text/json")
+                .header("Accept", "application/json,text/json")
                 .build()
         val resp = chain.proceed(request)
-        val body = resp.body()?.string() ?: ""
+        val body = resp.body?.string() ?: ""
         if (body.isEmpty()) {
-            return resp.newBuilder().body(ResponseBody.create(resp.body()!!.contentType(), body)).build()
+            return resp.newBuilder().body(ResponseBody.create(resp.body!!.contentType(), body)).build()
         }
 
         val start = body.indexOfFirst { it in arrayOf('{', '[') }
         val end = body.indexOfLast { it in arrayOf('}', ']') } + 1
         if (start < 0 || end <= 0 || body.length == end - start) {
             // 不是 json 或者 json 没问题，直接重新包装返回
-            return resp.newBuilder().body(ResponseBody.create(resp.body()!!.contentType(), body)).build()
+            return resp.newBuilder().body(ResponseBody.create(resp.body!!.contentType(), body)).build()
         }
 
         return resp
                 .newBuilder()
-                .body(ResponseBody.create(resp.body()?.contentType(), body.substring(start, end)))
+                .body(ResponseBody.create(resp.body?.contentType(), body.substring(start, end)))
                 .build()
     }
 }

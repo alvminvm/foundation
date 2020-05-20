@@ -38,6 +38,6 @@ object SnifferVerifier: HostnameVerifier {
 
         }
 
-        return OkHostnameVerifier.INSTANCE.verify(hostname, session)
+        return OkHostnameVerifier.verify(hostname, session)
     }
 }
