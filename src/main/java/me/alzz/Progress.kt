@@ -12,6 +12,7 @@ class Progress {
 
         fun show(activity: FragmentActivity?, message: String, isCancelable: Boolean = false) {
             activity ?: return
+            if (activity.isFinishing) return
 
             val dialog = progressMap[activity]
                 ?: (activity.supportFragmentManager.findFragmentByTag(TAG) as? ProgressFragment
@@ -28,7 +29,7 @@ class Progress {
             dialog.isCancelable = isCancelable
             dialog.setMessage(message)
             if (!dialog.isAdded) {
-                dialog.show(activity.supportFragmentManager, TAG)
+                dialog.showNow(activity.supportFragmentManager, TAG)
             }
         }
 
