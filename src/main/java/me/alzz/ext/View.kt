@@ -134,6 +134,13 @@ var Array<out View>.isGone: Boolean
     }
     get() = this.all { it.isGone }
 
-
+var View.smoothAlpha: Float
+    set(value) {
+        if (alpha != value) {
+            animate().cancel()
+            animate().alpha(value).start()
+        }
+    }
+    get() = alpha
 
 
