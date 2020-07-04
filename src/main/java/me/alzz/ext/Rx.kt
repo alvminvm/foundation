@@ -51,14 +51,14 @@ fun Disposable.disposeBy(d: DisposableContainer): Disposable {
 /**
  * 缓存结果
  */
-fun <T> Observable<T>.cache(ctx: Context, name: String, type: Class<T>, validDays: Float): Single<T> {
-    val cache = Cache.load(ctx, name, validDays, type).applySchedulers().ignoreError()
+fun <T> Observable<T>.cache(name: String, type: Class<T>, validDays: Float): Single<T> {
+    val cache = Cache.load(name, validDays, type).applySchedulers().ignoreError()
     val expensive = this
             .applySchedulers()
             .observeOn(Schedulers.io())
-            .map { Cache.cache(ctx, name, it); it }
+            .map { Cache.cache(name, it); it }
             .observeOn(AndroidSchedulers.mainThread())
-    val useCache = Cache.load(ctx, name, Float.MAX_VALUE, type).applySchedulers()
+    val useCache = Cache.load(name, Float.MAX_VALUE, type).applySchedulers()
 
     return Observable
             .concat(cache, expensive, useCache)
@@ -66,17 +66,17 @@ fun <T> Observable<T>.cache(ctx: Context, name: String, type: Class<T>, validDay
             .firstOrError()
 }
 
-fun <T> Observable<T>.cache(ctx: Context, name: String, validDays: Float, type: Type): Single<T> {
-    val cache = Cache.load<T>(ctx, name, validDays, type).applySchedulers().ignoreError()
+fun <T> Observable<T>.cache(name: String, validDays: Float, type: Type): Single<T> {
+    val cache = Cache.load<T>(name, validDays, type).applySchedulers().ignoreError()
 
     val expensive = this
         .applySchedulers()
         .observeOn(Schedulers.io())
-        .map { Cache.cache(ctx, name, it); it }
+        .map { Cache.cache(name, it); it }
         .observeOn(AndroidSchedulers.mainThread())
         .ignoreError()
 
-    val useCache = Cache.load<T>(ctx, name, Float.MAX_VALUE, type).applySchedulers()
+    val useCache = Cache.load<T>(name, Float.MAX_VALUE, type).applySchedulers()
 
     return Observable
         .concat(cache, expensive, useCache)

@@ -4,8 +4,8 @@ import android.content.Context
 import com.google.gson.Gson
 import io.reactivex.Observable
 import me.alzz.crypt.AesCbcWithIntegrity
+import me.alzz.ext.withIo
 import java.io.File
-import java.lang.Exception
 import java.lang.reflect.Type
 
 /**
@@ -14,66 +14,86 @@ import java.lang.reflect.Type
  */
 class Cache {
     companion object {
-        fun <T> load(ctx: Context, name: String, validDays: Float, type: Class<T>): Observable<T> {
-            return load(ctx, name, validDays) {
-                val gson = Gson()
-                gson.fromJson(it, type)
-            }
+        private var cacheDir: File? = null
+        private val gson = Gson()
+
+        fun init(context: Context) {
+            cacheDir = context.cacheDir
         }
 
-        fun <T> load(ctx: Context, name: String, validDays: Float, type: Type): Observable<T> {
-            return load(ctx, name, validDays) {
-                val gson = Gson()
-                gson.fromJson(it, type) as T
-            }
-        }
-
-        private fun <T> load(ctx: Context, name: String, validDays: Float, block: (String)->T): Observable<T> {
+        fun <T> load(name: String, validDays: Float, type: Class<T>): Observable<T> {
             return Observable
                 .create {
-                    val cache = File(ctx.cacheDir, name)
-                    if (!cache.exists()) {
-                        it.onComplete()
-                        return@create
+                    val data = load(name, validDays)
+                    if (data.isNotEmpty()) {
+                        val result = gson.fromJson(data, type)
+                        if (result != null) it.onNext(result)
                     }
 
-                    val cachedTime = System.currentTimeMillis() - cache.lastModified()
-                    if (cachedTime >= validDays * 24L * 60 * 60 * 1000) {
-                        it.onComplete()
-                        return@create
-                    }
-
-                    val encrypted = cache.readText()
-
-                    val data = try {
-                        val list = encrypted.split("!")
-                        val key = AesCbcWithIntegrity.keys(list[0])
-                        val civ = AesCbcWithIntegrity.CipherTextIvMac(list[1])
-                        AesCbcWithIntegrity.decryptString(civ, key)
-                    } catch (e: Exception) {
-                        encrypted
-                    }
-
-                    val result = block(data)
-                    it.onNext(result)
                     it.onComplete()
                 }
         }
 
-        fun <T> cache(ctx: Context, name: String, data: T) {
-            cache(ctx, name, data) {
-                val gson = Gson()
-                gson.toJson(data)
-            }
+        fun <T> load(name: String, validDays: Float, type: Type): Observable<T> {
+            return Observable
+                .create {
+                    val data = load(name, validDays)
+                    if (data.isNotEmpty()) {
+                        val result = gson.fromJson(data, type) as T
+                        if (result != null) it.onNext(result)
+                    }
+
+
+                    it.onComplete()
+                }
         }
 
-        fun <T> cache(ctx: Context, name: String, data: T, transform: (T)->String) {
-            val cache = File(ctx.cacheDir, name)
+        suspend fun <T> suspendLoad(name: String, validDays: Float, type: Type) = withIo {
+            val data = load(name, validDays)
+            if (data.isEmpty()) return@withIo null
+
+            return@withIo gson.fromJson(data, type) as T
+        }
+
+        private fun load(name: String, validDays: Float): String {
+            val cache = File(cacheDir, name)
+            if (!cache.exists()) {
+                return ""
+            }
+
+            val cachedTime = System.currentTimeMillis() - cache.lastModified()
+            if (cachedTime >= validDays * 24L * 60 * 60 * 1000) {
+                return ""
+            }
+
+            val encrypted = cache.readText()
+
+            val data = try {
+                val list = encrypted.split("!")
+                val key = AesCbcWithIntegrity.keys(list[0])
+                val civ = AesCbcWithIntegrity.CipherTextIvMac(list[1])
+                AesCbcWithIntegrity.decryptString(civ, key)
+            } catch (e: Exception) {
+                encrypted
+            }
+
+            return data
+        }
+
+        suspend fun <T> suspendCache(name: String, data: T) = withIo { cache(name, data) }
+
+        fun remove(name: String) {
+            val cache = File(cacheDir, name)
+            cache.delete()
+        }
+
+        fun <T> cache(name: String, data: T) {
+            val cache = File(cacheDir, name)
             if (cache.exists()) {
                 cache.delete()
             }
 
-            val json = transform(data)
+            val json = gson.toJson(data)
             val key = AesCbcWithIntegrity.generateKey()
             val civ = AesCbcWithIntegrity.encrypt(json, key)
             val encrypted = "$key!$civ"
