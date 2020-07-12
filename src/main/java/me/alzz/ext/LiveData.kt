@@ -1,5 +1,6 @@
 package me.alzz.ext
 
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
@@ -10,8 +11,25 @@ import androidx.lifecycle.MutableLiveData
 val <T> LiveData<List<T>>.size: Int
     get() = this.value?.size ?: 0
 
+fun <T> MutableLiveData<T>.safeSet(value: T) {
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+        this.value = value
+    } else {
+        this.postValue(value)
+    }
+}
+
 operator fun <T> MutableLiveData<List<T>>.plusAssign(newList: List<T>) {
-    value = (this.value ?: listOf()) + newList
+    val list = (this.value ?: listOf()) + newList
+    this.safeSet(list)
+}
+
+operator fun MutableLiveData<Int>.plusAssign(right: Int) {
+    this.safeSet((this.value ?: 0) + right)
+}
+
+operator fun MutableLiveData<Int>.minusAssign(right: Int) {
+    this.safeSet((this.value ?: 0) - right)
 }
 
 operator fun <T> List<T>.plus(data: LiveData<List<T>>): List<T> {
