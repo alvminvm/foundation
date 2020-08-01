@@ -1,12 +1,15 @@
 package me.alzz.ext
 
+import android.app.ActivityManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.os.Process
 import android.util.Log
 import android.widget.Toast
 import me.alzz.base.BuildConfig
+
 
 /**
  * Context 下的工具方法
@@ -36,6 +39,21 @@ fun Context.isPkgInstalled(pkg: String): Boolean {
     }
 
     return packageInfo != null
+}
+
+val Context.isMainProcess: Boolean
+    get() = packageName == currentProcessName
+
+val Context.currentProcessName: String get() {
+    val pid = Process.myPid()
+    val activityMgr = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    for (process in activityMgr.runningAppProcesses) {
+        if (process.pid == pid) {
+            return process.processName
+        }
+    }
+
+    return ""
 }
 
 /**
