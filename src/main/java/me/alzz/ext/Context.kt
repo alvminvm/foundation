@@ -5,8 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Process
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.WindowManager
 import android.widget.Toast
 import me.alzz.base.BuildConfig
 
@@ -93,3 +96,31 @@ fun Context.goHome(): Boolean {
         false
     }
 }
+
+/**
+ * 屏幕宽度
+ */
+val Context.displayWidthPixels: Int
+    get() = resources.displayMetrics.widthPixels
+
+/**
+ * 屏幕真实高度，包含底部导航栏
+ */
+val Context.realHeightPixels: Int
+    get() {
+        val wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val metrics = DisplayMetrics()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            wm.defaultDisplay.getRealMetrics(metrics)
+        } else {
+            resources.displayMetrics
+        }
+
+        return metrics.heightPixels
+    }
+
+/**
+ * 屏幕可用高度，有可能不包含导航栏
+ */
+val Context.usableHeightPixels: Int
+    get() = resources.displayMetrics.heightPixels
