@@ -10,8 +10,9 @@ import android.os.Process
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.WindowManager
-import android.widget.Toast
 import me.alzz.base.BuildConfig
+import org.jetbrains.anko.runOnUiThread
+import org.jetbrains.anko.toast
 
 
 /**
@@ -64,9 +65,7 @@ val Context.currentProcessName: String get() {
  */
 fun Context.toastDebug(message: CharSequence) {
     if (BuildConfig.DEBUG) {
-        Toast
-                .makeText(this, message, Toast.LENGTH_SHORT)
-                .show()
+        runOnUiThread { toast(message) }
     }
 }
 

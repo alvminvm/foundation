@@ -3,6 +3,7 @@ package me.alzz.ext
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Rect
+import java.io.File
 import kotlin.math.min
 
 /**
@@ -39,4 +40,12 @@ fun Bitmap.shrink(maxWidth: Int, maxHeight: Int, minWidth: Int = 0, minHeight: I
         Rect(0, 0, w, h),
         null)
     return bm
+}
+
+fun Bitmap.saveTo(file: File, format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG) {
+    if (file.exists()) file.delete()
+    file.parentFile?.mkdirs()
+    file.outputStream().use {
+        compress(format, 100, it)
+    }
 }
