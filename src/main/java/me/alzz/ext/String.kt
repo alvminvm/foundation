@@ -1,3 +1,4 @@
+@file:JvmName("StringUtils")
 package me.alzz.ext
 
 /**
@@ -35,4 +36,9 @@ fun String.beautyPhone(): String {
         this.length > 3 -> "${substring(0..2)} ${substring(3)}"
         else -> this
     }
+}
+
+fun randomString(len: Int): String {
+    val charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    return (1..len).map { charset.random() }.joinToString()
 }
