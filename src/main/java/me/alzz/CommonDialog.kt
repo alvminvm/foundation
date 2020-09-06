@@ -91,7 +91,11 @@ open class CommonDialog: DialogFragment() {
             val dialog = fm.findFragmentByTag(TAG) as? CommonDialog
                 ?: CommonDialog()
             dialog.setArgs(title, content, confirm, cancel)
-            dialog.show(fm, TAG)
+            if (dialog.isAdded) {
+                fm.beginTransaction().show(dialog).commitAllowingStateLoss()
+            } else {
+                dialog.show(fm, TAG)
+            }
             return dialog
         }
     }

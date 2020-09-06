@@ -32,7 +32,7 @@ class ProgressFragment: DialogFragment() {
         val args = arguments ?: Bundle().apply { arguments = this }
         args.putString(EXTRA_MESSAGE, message)
         if (isAdded) {
-            messageTv.text = message
+            messageTv?.text = message
         }
     }
 

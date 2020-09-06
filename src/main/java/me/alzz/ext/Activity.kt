@@ -6,6 +6,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import me.alzz.CommonDialog
+import okhttp3.internal.ignoreIoExceptions
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -59,6 +60,10 @@ suspend fun AppCompatActivity.askUser(
     }
 
     dialog.onDismiss = {
-        it.resume("")
+        try {
+            it.resume("")
+        } catch (e: Exception) {
+            // do nothing
+        }
     }
 }
