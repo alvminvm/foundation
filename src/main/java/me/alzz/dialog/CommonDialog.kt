@@ -1,5 +1,6 @@
-package me.alzz
+package me.alzz.dialog
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -43,9 +44,12 @@ open class CommonDialog: DialogFragment() {
             dismiss()
         }
 
-        dialog?.setOnDismissListener { onDismiss?.invoke() }
-
         showInternal()
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        onDismiss?.invoke()
     }
 
     private fun showInternal() {

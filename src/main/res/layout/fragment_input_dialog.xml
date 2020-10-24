@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_content">
+
+    <TextView
+        android:id="@+id/titleTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        tools:text="新建分类"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/font_caption"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/inputEt"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:drawablePadding="@dimen/padding"
+        android:padding="@dimen/padding"
+        android:textColor="@color/font_main"
+        android:textSize="@dimen/font_caption"
+        android:textColorHint="@color/font_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTv"
+        android:background="@drawable/bg_input_normal"
+        android:maxLength="20"
+        android:singleLine="true"
+        android:ellipsize="end"
+        tools:hint="请输入分类"
+        tools:text="" />
+
+    <TextView
+        android:id="@+id/confirmTv"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/btn_accent_radius"
+        android:gravity="center"
+        android:minWidth="72dp"
+        android:paddingLeft="@dimen/padding"
+        android:paddingRight="@dimen/padding"
+        tools:text="@string/action_confirm"
+        android:textColor="@color/font_white"
+        android:textSize="@dimen/font_caption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputEt" />
+
+    <TextView
+        android:id="@+id/cancelTv"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="@string/action_cancel"
+        android:textColor="@color/font_hint"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/confirmTv"
+        app:layout_constraintEnd_toStartOf="@id/confirmTv"
+        app:layout_constraintTop_toTopOf="@id/confirmTv" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

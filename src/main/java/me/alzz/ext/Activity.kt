@@ -5,8 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import me.alzz.CommonDialog
-import okhttp3.internal.ignoreIoExceptions
+import me.alzz.dialog.CommonDialog
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 

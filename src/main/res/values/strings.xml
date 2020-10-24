@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="loading">加载中...</string>
+    <string name="action_confirm">确定</string>
+    <string name="action_cancel">取消</string>
 </resources>
