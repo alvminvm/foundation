@@ -1,5 +1,6 @@
 package me.alzz.onactivityresult
 
+import android.app.Activity
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -42,7 +43,9 @@ data class ActivityResult(
     val requestCode: Int,
     val resultCode: Int,
     val data: Intent?
-)
+) {
+    fun isOk() = resultCode == Activity.RESULT_OK
+}
 
 interface OnActivityResultCallback {
     fun onActivityResult(result: ActivityResult)
