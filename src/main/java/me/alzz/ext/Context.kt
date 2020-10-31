@@ -123,3 +123,31 @@ val Context.realHeightPixels: Int
  */
 val Context.usableHeightPixels: Int
     get() = resources.displayMetrics.heightPixels
+
+/**
+ * 当前应用的版本号
+ */
+val Context.versionName: String
+    get() {
+        val packageInfo: PackageInfo
+        return try {
+            packageInfo = packageManager.getPackageInfo(packageName, 0)
+            packageInfo.versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            ""
+        }
+    }
+
+/**
+ * 当前应用的版本号
+ */
+val Context.versionCode: Int
+    get() {
+        val packageInfo: PackageInfo
+        return try {
+            packageInfo = packageManager.getPackageInfo(packageName, 0)
+            packageInfo.versionCode
+        } catch (e: PackageManager.NameNotFoundException) {
+            0
+        }
+    }

@@ -36,6 +36,11 @@ class QuickHeaderInterceptor : Interceptor {
 
                     request = builder.build()
                     builder = request.newBuilder()
+                } else if (op is FixOp) {
+                    op.headers.forEach { builder.header(it.key, it.value) }
+
+                    request = builder.build()
+                    builder = request.newBuilder()
                 }
             }
         }
@@ -53,6 +58,11 @@ class QuickHeaderInterceptor : Interceptor {
         return this
     }
 
+    fun fix(name: String, value: String): QuickHeaderInterceptor {
+        ops.add(FixOp(mapOf(name to value)))
+        return this
+    }
+
     class ReplaceOp(
         val predicate: (name: String) -> Boolean,
         val op: (name: String, request: Request) -> String
@@ -62,6 +72,8 @@ class QuickHeaderInterceptor : Interceptor {
         val predicate: (name: String) -> Boolean,
         val op: (name: String, request: Request) -> Map<String, String>
     )
+
+    data class FixOp(val headers: Map<String, String>)
 
     companion object {
         const val VALUE_STUB = "<Header Stub>"
