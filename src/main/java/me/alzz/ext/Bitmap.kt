@@ -1,6 +1,8 @@
+@file:JvmName("BitmapUtils")
 package me.alzz.ext
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Rect
 import java.io.File
@@ -48,4 +50,14 @@ fun Bitmap.saveTo(file: File, format: Bitmap.CompressFormat = Bitmap.CompressFor
     file.outputStream().use {
         compress(format, 100, it)
     }
+}
+
+/**
+ * 解析图片宽高
+ * @return width * height
+ */
+fun File.decodeBitmapSize(): Pair<Int, Int> {
+    val opts = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+    BitmapFactory.decodeFile(absolutePath, opts)
+    return opts.outWidth to opts.outHeight
 }
