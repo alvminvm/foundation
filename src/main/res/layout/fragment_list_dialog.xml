@@ -48,4 +48,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/listRv" />
 
+    <TextView
+        android:id="@+id/addTv"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginTop="18dp"
+        android:gravity="center_vertical|end"
+        android:minWidth="72dp"
+        android:paddingLeft="@dimen/padding"
+        android:paddingRight="@dimen/padding"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/action_add"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/font_caption"
+        app:layout_constraintEnd_toStartOf="@id/cancelTv"
+        app:layout_constraintBaseline_toBaselineOf="@id/cancelTv" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

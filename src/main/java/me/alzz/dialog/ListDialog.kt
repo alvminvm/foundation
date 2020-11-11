@@ -22,6 +22,7 @@ import me.alzz.ext.isGone
 open class ListDialog: DialogFragment() {
 
     var onItemClick: ((position: Int, item: String) -> Unit)? = null
+    var onAdd: (() -> Unit)? = null
     var onCancel: (() -> Unit)? = null
     var onDismiss: (() -> Unit)? = null
 
@@ -35,6 +36,11 @@ open class ListDialog: DialogFragment() {
 
         cancelTv.click {
             onCancel?.invoke()
+            dismiss()
+        }
+
+        addTv.click {
+            onAdd?.invoke()
             dismiss()
         }
 
