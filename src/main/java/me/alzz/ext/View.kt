@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
+import android.os.Build
 import android.util.Log
 import android.view.MotionEvent
 import android.view.TouchDelegate
@@ -54,7 +55,9 @@ fun View.useBtnEffect(darker: Boolean = true) {
 }
 
 fun View.click(action: (View) -> Unit): Disposable {
-    this.useBtnEffect(false)
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || foreground == null) {
+        this.useBtnEffect(false)
+    }
     return this.clicks().throttleFirst(700, TimeUnit.MILLISECONDS).subscribe { action.invoke(this) }
 }
 
