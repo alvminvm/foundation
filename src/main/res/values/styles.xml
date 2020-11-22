@@ -7,4 +7,15 @@
         <item name="titleTextColor">@color/font_white</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
     </style>
+
+    <style name="Button_RoundRect_Accent">
+        <item name="android:textColor">@color/font_accent_round_rect</item>
+        <item name="android:background">@drawable/btn_accent_round_rect</item>
+    </style>
+
+    <style name="Button_RoundRect_Hint">
+        <item name="android:textColor">@color/font_hint_round_rect</item>
+        <item name="android:background">@drawable/btn_hint_round_rect</item>
+    </style>
+
 </resources>
