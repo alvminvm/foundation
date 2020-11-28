@@ -14,6 +14,7 @@ inline fun <T> tryElseNull(block: () -> T): T? {
     return try {
         block()
     } catch (e: Exception) {
+        Log.w("ExceptionUtils", "return null if exception", e)
         null
     }
 }

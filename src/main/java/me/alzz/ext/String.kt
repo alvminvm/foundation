@@ -25,7 +25,7 @@ fun String.trimZero(): String {
 
 fun String.isEmail() = this.matches("^[a-zA-Z0-9_\\-.]+@[a-zA-Z0-9_\\-]+(\\.[a-zA-Z0-9_-]+)+$".toRegex())
 
-fun String.isPhone() = this.matches("^[1][345678][0-9]{9}$".toRegex())
+fun String.isPhone() = this.matches("^[1][3456789][0-9]{9}$".toRegex())
 
 /**
  * 给手机号增加空格
