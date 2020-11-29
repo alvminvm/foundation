@@ -15,6 +15,8 @@ import me.alzz.ext.disposeBy
 open class BaseVM: ViewModel(), DisposableContainer {
 
     val progress = MediatorLiveData<String>()
+
+    // TODO: 2020/11/29 更换成事件通知
     val desc = vmLiveData<String>()
     val error = vmLiveData<String>()
 

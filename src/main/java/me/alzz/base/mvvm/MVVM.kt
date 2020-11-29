@@ -10,6 +10,7 @@ import me.alzz.Progress
 import me.alzz.ext.get
 import me.alzz.ext.use
 import org.jetbrains.anko.toast
+import java.lang.IllegalArgumentException
 import kotlin.reflect.KClass
 
 /**
@@ -23,10 +24,10 @@ fun <T : BaseVM> AppCompatActivity.activity(vmClazz: KClass<T>): Lazy<T> {
     }
 }
 
-fun <T : BaseVM> Fragment.activity(vmClazz: KClass<T>): Lazy<T?> {
+fun <T : BaseVM> Fragment.activity(vmClazz: KClass<T>): Lazy<T> {
     return lazy {
-        val activity = context as? FragmentActivity
-        if (activity == null) null else ViewModelProviders.of(activity).get(vmClazz.java)
+        val activity = context as? FragmentActivity ?: throw IllegalArgumentException("need activity")
+        ViewModelProviders.of(activity).get(vmClazz.java)
     }
 }
 

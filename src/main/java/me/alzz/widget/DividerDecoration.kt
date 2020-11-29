@@ -10,6 +10,11 @@ import android.view.View
  * Created by JeremyHe on 2019/4/7.
  */
 class DividerDecoration(val width: Int): RecyclerView.ItemDecoration() {
+
+    var top = 0
+    var left = width
+    var right = width
+
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
         when (val layoutMgr = parent.layoutManager) {
@@ -21,16 +26,20 @@ class DividerDecoration(val width: Int): RecyclerView.ItemDecoration() {
     private fun staggerDivider(outRect: Rect, view: View, layoutManager: StaggeredGridLayoutManager, parent: RecyclerView) {
         val lp = view.layoutParams as StaggeredGridLayoutManager.LayoutParams
         val spanCount = layoutManager.spanCount
-//        val position = parent.getChildAdapterPosition(view)
+        val position = parent.getChildAdapterPosition(view)
+
         val halfWidth = width / 2
         outRect.left = halfWidth
         outRect.right = halfWidth
-//        outRect.top = if (position < spanCount) 0 else width
         outRect.bottom = width
 
-        when (lp.spanIndex) {
-            0 -> outRect.left = width
-            (spanCount - 1) -> outRect.right = width
-        }
+        val isTopItem = position < spanCount
+        outRect.top = if (isTopItem) top else outRect.top
+
+        val isLeftItem = lp.spanIndex == 0
+        if (isLeftItem) outRect.left = left
+
+        val isRightItem = lp.spanIndex == (spanCount - 1)
+        if (isRightItem) outRect.right = right
     }
 }
