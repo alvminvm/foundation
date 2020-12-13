@@ -1,5 +1,7 @@
 package me.alzz.ext
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import me.alzz.okhttp.AcceptJsonInterceptor
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
@@ -29,6 +31,9 @@ fun Retrofit.Builder.acceptJson(): Retrofit.Builder {
  * 文件转换成 Multipart
  * 配合 [Part] 注解，常用于文件上传
  */
-fun File.asPart(name: String = "file"): MultipartBody.Part {
-    return MultipartBody.Part.createFormData(name, this.name, this.asRequestBody())
+suspend fun File.asPart(name: String = "file") = withContext(Dispatchers.IO) {
+    val type = this@asPart.getFileType()
+    val ext = ".${type?.name ?: ""}"
+    val filename = if (ext == ".") this@asPart.name else this@asPart.name.removeSuffix(ext) + ext
+    return@withContext MultipartBody.Part.createFormData(name, filename, this@asPart.asRequestBody())
 }

@@ -33,7 +33,9 @@ fun <T : BaseVM> AppCompatActivity.activity(vmClazz: KClass<T>): Lazy<T> {
 fun <T : BaseVM> Fragment.activity(vmClazz: KClass<T>): Lazy<T> {
     return lazy {
         val activity = context as? FragmentActivity ?: throw IllegalArgumentException("need activity")
-        ViewModelProviders.of(activity).get(vmClazz.java)
+        val vm = activity.get(vmClazz.java)
+        bind(vm)
+        vm
     }
 }
 

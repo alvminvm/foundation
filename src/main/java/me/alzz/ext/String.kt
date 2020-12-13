@@ -1,6 +1,8 @@
 @file:JvmName("StringUtils")
 package me.alzz.ext
 
+import okhttp3.internal.and
+
 /**
  * String 工具方法
  * Created by JeremyHe on 2018/4/15.
@@ -41,4 +43,17 @@ fun String.beautyPhone(): String {
 fun randomString(len: Int): String {
     val charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     return (1..len).map { charset.random() }.joinToString()
+}
+
+fun ByteArray.toHexString(): String {
+    val stringBuilder = StringBuilder()
+    for (i in this.indices) {
+        val v = this[i] and 0xFF
+        val hv = Integer.toHexString(v)
+        if (hv.length < 2) {
+            stringBuilder.append(0)
+        }
+        stringBuilder.append(hv)
+    }
+    return stringBuilder.toString()
 }

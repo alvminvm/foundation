@@ -58,7 +58,7 @@ class QuickHeaderInterceptor : Interceptor {
         return this
     }
 
-    fun fix(name: String, value: String): QuickHeaderInterceptor {
+    fun fixed(name: String, value: String): QuickHeaderInterceptor {
         ops.add(FixOp(mapOf(name to value)))
         return this
     }
