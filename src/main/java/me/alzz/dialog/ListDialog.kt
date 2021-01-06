@@ -119,10 +119,14 @@ open class ListDialog: DialogFragment() {
             return dialog
         }
 
-        suspend fun awaitChoose(title: String, items: List<String>, fm: FragmentManager) = suspendCoroutine<Pair<Int, String>?> {
+        suspend fun awaitChoose(title: String, items: List<String>, fm: FragmentManager, enableAdd: Boolean = false) = suspendCoroutine<Pair<Int, String>?> {
             val dialog = show(title, items, fm)
             dialog.onItemClick = { position, item ->
                 it.resume(position to item)
+            }
+
+            if (enableAdd) {
+                dialog.onAdd = { it.resume(-1 to "新增") }
             }
 
             dialog.onCancel = {

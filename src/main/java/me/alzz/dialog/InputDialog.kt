@@ -16,6 +16,8 @@ import me.alzz.base.R
 import me.alzz.ext.click
 import me.alzz.ext.isGone
 import org.jetbrains.anko.toast
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * Created by JeremyHe on 2019/5/4.
@@ -93,6 +95,17 @@ open class InputDialog: DialogFragment() {
         private const val EXTRA_HINT = "hint"
         private const val EXTRA_CONTENT = "content"
         private const val EXTRA_CONFIRM = "confirm"
+
+        suspend fun awaitAdd(name: String, fm: FragmentManager) = suspendCoroutine<String> {
+            val dialog = showAdd(name, fm)
+            dialog.onConfirm = { reason ->
+                it.resume(reason)
+            }
+
+            dialog.onCancel = {
+                it.resume("")
+            }
+        }
 
         fun showAdd(name: String, fm: FragmentManager): InputDialog {
             return show("新增$name", "请输入$name", "", "确定", fm)
