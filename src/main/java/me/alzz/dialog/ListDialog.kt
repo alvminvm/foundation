@@ -15,6 +15,9 @@ import kotlinx.android.synthetic.main.fragment_list_dialog.*
 import me.alzz.base.R
 import me.alzz.ext.click
 import me.alzz.ext.isGone
+import me.alzz.ext.isVisible
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * Created by JeremyHe on 2020/10/24.
@@ -23,6 +26,10 @@ open class ListDialog: DialogFragment() {
 
     var onItemClick: ((position: Int, item: String) -> Unit)? = null
     var onAdd: (() -> Unit)? = null
+        set(value) {
+            field = value
+            addTv.isVisible = value != null
+        }
     var onCancel: (() -> Unit)? = null
     var onDismiss: (() -> Unit)? = null
 
@@ -39,6 +46,7 @@ open class ListDialog: DialogFragment() {
             dismiss()
         }
 
+        addTv.isVisible = onAdd != null
         addTv.click {
             onAdd?.invoke()
             dismiss()
@@ -110,5 +118,17 @@ open class ListDialog: DialogFragment() {
 //            dialog.isCancelable = false
             return dialog
         }
+
+        suspend fun awaitChoose(title: String, items: List<String>, fm: FragmentManager) = suspendCoroutine<Pair<Int, String>?> {
+            val dialog = show(title, items, fm)
+            dialog.onItemClick = { position, item ->
+                it.resume(position to item)
+            }
+
+            dialog.onCancel = {
+                it.resume(null)
+            }
+        }
+
     }
 }
