@@ -96,6 +96,9 @@ open class InputDialog: DialogFragment() {
         private const val EXTRA_CONTENT = "content"
         private const val EXTRA_CONFIRM = "confirm"
 
+        /**
+         * @return 取消时返回空字符串
+         */
         suspend fun awaitAdd(name: String, fm: FragmentManager) = suspendCoroutine<String> {
             val dialog = showAdd(name, fm)
             dialog.onConfirm = { reason ->
