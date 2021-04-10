@@ -37,14 +37,25 @@ class Cache {
         fun <T> load(name: String, validDays: Float, type: Type): Observable<T> {
             return Observable
                 .create {
-                    val data = load(name, validDays)
-                    if (data.isNotEmpty()) {
-                        val result = gson.fromJson(data, type) as T
-                        if (result != null) it.onNext(result)
+                    try {
+                        val data = load(name, validDays)
+                        if (data.isEmpty()) {
+                            it.onError(Throwable("cache data empty"))
+                            return@create
+                        }
+
+                        val result = gson.fromJson(data, type) as? T
+                        if (result == null) {
+                            it.onError(Throwable("parse json fail"))
+                            return@create
+                        }
+
+                        it.onNext(result)
+                    } catch (t: Throwable) {
+                        it.onError(t)
+                    } finally {
+                        it.onComplete()
                     }
-
-
-                    it.onComplete()
                 }
         }
 
