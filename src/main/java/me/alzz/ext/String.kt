@@ -57,3 +57,5 @@ fun ByteArray.toHexString(): String {
     }
     return stringBuilder.toString()
 }
+
+fun String?.default(str: String) = if (this.isNullOrBlank()) str else this
