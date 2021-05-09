@@ -38,6 +38,7 @@ fun Activity.activityLocalPut(tag: String, data: Any): Any {
 
 /**
  * 弹出对话框询问用户意见后继续执行
+ * @return 返回用户点击的按钮的文案
  */
 suspend fun AppCompatActivity.askUser(
     title: String,
