@@ -12,13 +12,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        tools:text="新建分类"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/font_caption"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="新建分类" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listRv"
@@ -26,12 +26,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:textColor="@color/font_main"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="450dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleTv"
-        tools:listitem="@layout/item_list_dialog"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        />
+        tools:listitem="@layout/item_list_dialog" />
 
     <TextView
         android:id="@+id/cancelTv"
@@ -53,15 +53,15 @@
         android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginTop="18dp"
+        android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical|end"
         android:minWidth="72dp"
         android:paddingLeft="@dimen/padding"
         android:paddingRight="@dimen/padding"
-        android:background="?android:attr/selectableItemBackground"
         android:text="@string/action_add"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/font_caption"
-        app:layout_constraintEnd_toStartOf="@id/cancelTv"
-        app:layout_constraintBaseline_toBaselineOf="@id/cancelTv" />
+        app:layout_constraintBaseline_toBaselineOf="@id/cancelTv"
+        app:layout_constraintEnd_toStartOf="@id/cancelTv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
