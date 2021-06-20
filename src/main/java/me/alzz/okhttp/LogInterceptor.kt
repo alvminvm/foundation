@@ -30,14 +30,15 @@ class LogInterceptor : Interceptor {
         }
 
         try {
-            val os = ByteArrayOutputStream()
-            val sink = os.sink().buffer()
             val body = request.body
             if (null != body) {
-                body.writeTo(sink)
-                sink.close()
-                val bodyString = os.toString()
-                sb.append(String.format("-d '%s' ", bodyString))
+                ByteArrayOutputStream().use {
+                    val sink = it.sink().buffer()
+                    body.writeTo(sink)
+                    sink.close()
+                    val bodyString = it.toString()
+                    sb.append(String.format("-d '%s' ", bodyString))
+                }
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
