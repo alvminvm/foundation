@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import io.reactivex.Observable
 import me.alzz.crypt.AesCbcWithIntegrity
+import me.alzz.ext.tryIgnore
 import me.alzz.ext.withIo
 import java.io.File
 import java.lang.reflect.Type
@@ -24,10 +25,12 @@ class Cache {
         fun <T> load(name: String, validDays: Float, type: Class<T>): Observable<T> {
             return Observable
                 .create {
-                    val data = load(name, validDays)
-                    if (data.isNotEmpty()) {
-                        val result = gson.fromJson(data, type)
-                        if (result != null) it.onNext(result)
+                    tryIgnore {
+                        val data = load(name, validDays)
+                        if (data.isNotEmpty()) {
+                            val result = gson.fromJson(data, type)
+                            if (result != null) it.onNext(result)
+                        }
                     }
 
                     it.onComplete()
