@@ -11,17 +11,17 @@
     <dimen name="toolbar_sub_title">@dimen/font_hint</dimen>
 
     <!--字体大小-->
-    <dimen name="font_hint">12sp</dimen>
-    <dimen name="font_caption">14sp</dimen>
-    <dimen name="font_body">16sp</dimen>
-    <dimen name="font_button">16sp</dimen>
-    <dimen name="font_sub_headline">18sp</dimen>
-    <dimen name="font_sub_title">20sp</dimen>
-    <dimen name="font_title">22sp</dimen>
-    <dimen name="font_headline">24sp</dimen>
-    <dimen name="font_x_title">30sp</dimen>
-    <dimen name="font_display_1">34sp</dimen>
-    <dimen name="font_display_2">48sp</dimen>
+    <dimen name="font_hint">12dp</dimen>
+    <dimen name="font_caption">14dp</dimen>
+    <dimen name="font_body">16dp</dimen>
+    <dimen name="font_button">16dp</dimen>
+    <dimen name="font_sub_headline">18dp</dimen>
+    <dimen name="font_sub_title">20dp</dimen>
+    <dimen name="font_title">22dp</dimen>
+    <dimen name="font_headline">24dp</dimen>
+    <dimen name="font_x_title">30dp</dimen>
+    <dimen name="font_display_1">34dp</dimen>
+    <dimen name="font_display_2">48dp</dimen>
 
     <!--其他常用-->
     <dimen name="divider">1px</dimen>
