@@ -16,7 +16,7 @@ fun File.getHead(size: Int = 28): String {
 }
 
 fun File.getFileType(): FileType? {
-    val maxSize = FileType.values().map { it.head.length }.max()!!
+    val maxSize = FileType.values().map { it.head.length }.maxOrNull()!!
     val head = this.getHead(maxSize).toUpperCase()
     return FileType.values().find {
         if (head.length < it.head.length) return@find false
