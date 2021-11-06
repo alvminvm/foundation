@@ -11,6 +11,8 @@
 
     <color name="white">#ffffff</color>
     <color name="white_87">#dfffffff</color>
+    <color name="white_20">#33ffffff</color>
+    <color name="white_40">#66ffffff</color>
     <color name="black">#000000</color>
 
     <color name="divider">#7FBDBDBD</color>
