@@ -10,9 +10,11 @@
     <color name="navigateIcon">@color/white</color>
 
     <color name="white">#ffffff</color>
-    <color name="white_87">#dfffffff</color>
+    <color name="white_10">#19ffffff</color>
     <color name="white_20">#33ffffff</color>
     <color name="white_40">#66ffffff</color>
+    <color name="white_60">#99ffffff</color>
+    <color name="white_87">#dfffffff</color>
     <color name="black">#000000</color>
 
     <color name="divider">#7FBDBDBD</color>

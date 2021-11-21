@@ -1,5 +1,6 @@
 package me.alzz.ext
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
@@ -19,5 +20,19 @@ fun RecyclerView.tryLoadMore(action: ()->Unit) {
             }
         }
     })
+}
+
+/**
+ * 数据更新完成后执行
+ */
+fun RecyclerView.runAfterUpdateFinished(action: Runnable, timeoutInMills: Long = 300) {
+    if (timeoutInMills > 0 && this.hasPendingAdapterUpdates()) {
+        Log.d("RecycleView", "runAfterUpdateFinished timeout = $timeoutInMills")
+        postDelayed({ runAfterUpdateFinished(action, timeoutInMills - 16) }, 16)
+        return
+    }
+
+    Log.d("RecycleView", "runAfterUpdateFinished")
+    action.run()
 }
 
