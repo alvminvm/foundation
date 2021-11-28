@@ -46,7 +46,9 @@ class ProgressRequestBody(
                 if (total == 0L) total = contentLength()
                 current += byteCount
                 super.write(source, byteCount)
-                cb.invoke(total, current)
+                if (current <= total) {
+                    cb.invoke(total, current)
+                }
             }
         }.buffer()
     }

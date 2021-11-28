@@ -1,10 +1,7 @@
 package me.alzz.okhttp
 
 import android.util.Log
-import okhttp3.Interceptor
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.ResponseBody
+import okhttp3.*
 import okio.buffer
 import okio.sink
 import java.io.ByteArrayOutputStream
@@ -31,21 +28,32 @@ class LogInterceptor : Interceptor {
 
         try {
             val body = request.body
-            if (null != body) {
-                ByteArrayOutputStream().use {
-                    val sink = it.sink().buffer()
-                    body.writeTo(sink)
-                    sink.close()
-                    val bodyString = it.toString()
-                    sb.append(String.format("-d '%s' ", bodyString))
-                }
-            }
+            sb.appendBody(body)
         } catch (ex: Exception) {
             ex.printStackTrace()
         }
 
         sb.append(url)
         return sb.toString()
+    }
+
+    private fun StringBuilder.appendBody(body: RequestBody?) {
+        if (body == null) return
+        if (body is MultipartBody) {
+            body.parts.forEach { appendBody(it.body) }
+            return
+        }
+
+        val contentType = body.contentType()?.toString() ?: ""
+        if (contentType.contains("text") || contentType.contains("json")) {
+            ByteArrayOutputStream().use {
+                val sink = it.sink().buffer()
+                body.writeTo(sink)
+                sink.close()
+                val bodyString = it.toString()
+                this.append(String.format("-d '%s' ", bodyString))
+            }
+        }
     }
 
     @Throws(Exception::class)
