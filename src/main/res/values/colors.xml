@@ -24,6 +24,7 @@
 
     <color name="font_primary_dark">@color/colorPrimaryDark</color>
     <color name="font_white">#ffffffff</color>
+    <color name="font_white_60">@color/white_60</color>
     <color name="font_white_87">@color/white_87</color>
     <color name="font_main">#212121</color>
     <color name="font_secondary">#757575</color>
