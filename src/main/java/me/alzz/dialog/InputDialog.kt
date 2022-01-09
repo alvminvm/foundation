@@ -1,10 +1,13 @@
 package me.alzz.dialog
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import kotlinx.android.synthetic.main.fragment_common_dialog.*
@@ -52,6 +55,15 @@ open class InputDialog: DialogFragment() {
             dismiss()
         }
 
+        inputEt.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                confirmTv.performClick()
+                true
+            } else {
+                false
+            }
+        }
+
         showInternal()
     }
 
@@ -71,8 +83,18 @@ open class InputDialog: DialogFragment() {
 
         val content = args.getString(EXTRA_CONTENT) ?: ""
         inputEt.setText(content)
+        inputEt.requestFocus()
 
         confirmTv.text = args.getString(EXTRA_CONFIRM) ?: getString(R.string.action_confirm)
+
+        showInputMethod()
+    }
+
+    private fun showInputMethod() {
+        inputEt.postDelayed({
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(inputEt, InputMethodManager.SHOW_IMPLICIT)
+        }, 200)
     }
 
     fun setArgs(title: String, hint: String, content: String, confirm: String) {
