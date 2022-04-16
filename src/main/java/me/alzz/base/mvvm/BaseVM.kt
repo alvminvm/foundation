@@ -55,7 +55,20 @@ open class BaseVM: ViewModel(), DisposableContainer {
         return if (source == null) {
             MutableLiveData<T>()
         } else {
-            MediatorLiveData<T>().apply { addSource(source) { this.postValue(it) } }
+            MediatorLiveData<T>().apply {
+                addSource(source) {
+                    this.postValue(it)
+                }
+            }
+        } n progress
+    }
+
+    fun <T, R> vmLiveData(source: LiveData<R>, convert: (R) -> T): MutableLiveData<T> {
+        return MediatorLiveData<T>().apply {
+            addSource(source) {
+                val t = convert(it)
+                this.postValue(t)
+            }
         } n progress
     }
 
