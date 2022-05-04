@@ -19,13 +19,20 @@ suspend fun String.redirectUrl() = suspendCoroutine<Pair<String?, Error>> {
         }
 
         override fun onResponse(call: Call, response: Response) {
-            val url = response.headers["location"]
-            if (url.isNullOrBlank()) {
-                it.resume(null to "未找到重定向地址")
+            var url = response.headers["location"]
+            if (!url.isNullOrBlank()) {
+                it.resume(url to null)
                 return
             }
 
-            it.resume(url to null)
+            url = response.body?.string() ?: ""
+            if (url.contains("http")) {
+                url = url.removePrefix("±img=").removeSuffix("±")
+                it.resume(url to null)
+                return
+            }
+
+            it.resume(null to "未找到重定向地址")
         }
     })
 }
