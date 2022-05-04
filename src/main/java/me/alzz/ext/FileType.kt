@@ -7,6 +7,11 @@ enum class FileType(val head: String) {
     WEBP("52494646________57454250"),
 
     /**
+     * weba
+     */
+    WEBA("52494646________57454241"),
+
+    /**
      * JEPG.
      */
     JPG("FFD8FF"),

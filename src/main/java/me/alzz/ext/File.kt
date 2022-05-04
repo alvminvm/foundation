@@ -1,6 +1,7 @@
 package me.alzz.ext
 
 import java.io.File
+import java.util.*
 
 /**
  * Created by JeremyHe on 2020/12/13.
@@ -16,8 +17,8 @@ fun File.getHead(size: Int = 28): String {
 }
 
 fun File.getFileType(): FileType? {
-    val maxSize = FileType.values().map { it.head.length }.maxOrNull()!!
-    val head = this.getHead(maxSize).toUpperCase()
+    val maxSize = FileType.values().maxOf { it.head.length }
+    val head = this.getHead(maxSize).uppercase(Locale.getDefault())
     return FileType.values().find {
         if (head.length < it.head.length) return@find false
         if (it.head.contains("_")) {
