@@ -1,9 +1,10 @@
 package me.alzz
 
 import android.app.Activity
+import android.util.Log
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.GenericLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.fragment.app.FragmentActivity
 
 class Progress {
     companion object {
@@ -29,7 +30,11 @@ class Progress {
             dialog.isCancelable = isCancelable
             dialog.setMessage(message)
             if (!dialog.isAdded) {
-                dialog.showNow(activity.supportFragmentManager, TAG)
+                try {
+                    dialog.showNow(activity.supportFragmentManager, TAG)
+                } catch (t: Throwable) {
+                    Log.w(TAG, "show progress exception", t)
+                }
             }
         }
 
