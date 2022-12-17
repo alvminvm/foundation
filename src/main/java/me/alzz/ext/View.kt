@@ -15,8 +15,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.jakewharton.rxbinding3.view.clicks
 import io.reactivex.disposables.Disposable
-import java.sql.Struct
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.resume
 
 
 /**
@@ -86,6 +87,10 @@ fun View.expandTouchDelegate(width: Int) {
         rect.right += width
         parentView.touchDelegate = TouchDelegate(rect, this)
     }
+}
+
+suspend fun View.animHeightTo(target: Int) = suspendCancellableCoroutine {
+    animHeightTo(target) { it.resume(Unit) }
 }
 
 fun View.animHeightTo(target: Int, endAction: (()->Unit)?) {
