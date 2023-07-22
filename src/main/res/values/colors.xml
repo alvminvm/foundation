@@ -32,5 +32,6 @@
     <color name="font_hint">#FFA4A4A4</color>
     <color name="font_hint_87">#DFA4A4A4</color>
     <color name="font_hint_50">#7DA4A4A4</color>
+    <color name="font_hint_20">#33A4A4A4</color>
     <color name="font_orange">#FF5722</color>
 </resources>

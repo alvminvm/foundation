@@ -45,18 +45,19 @@ dependencies {
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
 
-    api 'com.squareup.retrofit2:retrofit:2.8.2'
-    api 'com.squareup.retrofit2:converter-gson:2.8.2'
-    api 'com.squareup.retrofit2:converter-scalars:2.8.2'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.8.2'
-    api 'com.squareup.retrofit2:converter-protobuf:2.8.2'
-    api 'com.squareup.okhttp3:okhttp:4.1.1'
+    def retrofit_version = "2.9.0"
+    api "com.squareup.retrofit2:retrofit:$retrofit_version"
+    api "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    api "com.squareup.retrofit2:converter-scalars:$retrofit_version"
+    api "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    api "com.squareup.retrofit2:converter-protobuf:$retrofit_version"
+    api 'com.squareup.okhttp3:okhttp:4.8.1'
 
-    api 'com.google.code.gson:gson:2.8.6'
-    api 'com.google.protobuf:protobuf-java:3.11.4'
+    api 'com.google.code.gson:gson:2.8.9'
+    api 'com.google.protobuf:protobuf-java:3.23.4'
 
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    api 'io.reactivex.rxjava2:rxjava:2.2.17'
+    api 'io.reactivex.rxjava2:rxjava:2.2.20'
     api 'com.trello.rxlifecycle3:rxlifecycle:3.1.0'
     api 'com.trello.rxlifecycle3:rxlifecycle-android-lifecycle-kotlin:3.1.0'
     api 'com.jakewharton.rxbinding3:rxbinding:3.1.0'

@@ -110,6 +110,11 @@ open class InputDialog: DialogFragment() {
         }
     }
 
+    suspend fun await() = suspendCoroutine {
+        onConfirm = { input -> it.resume(input) }
+        onCancel = { it.resume("") }
+    }
+
     companion object {
         private const val TAG = "inputDialog"
 
