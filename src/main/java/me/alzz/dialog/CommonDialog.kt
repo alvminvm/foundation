@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import kotlinx.android.synthetic.main.fragment_common_dialog.*
 import me.alzz.base.R
+import me.alzz.base.databinding.FragmentCommonDialogBinding
 import me.alzz.ext.click
 import me.alzz.ext.isGone
 
@@ -21,26 +21,29 @@ open class CommonDialog: DialogFragment() {
     var onConfirm: ((action: String) -> Unit)? = null
     var onCancel: ((action: String) -> Unit)? = null
     var onDismiss: (() -> Unit)? = null
+    
+    private lateinit var binding: FragmentCommonDialogBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_common_dialog, container, false)
+        binding = FragmentCommonDialogBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setStyle(STYLE_NO_TITLE, 0)
 
-        contentTv.click {
-            onClickContent?.invoke(contentTv.text.toString())
+        binding.contentTv.click {
+            onClickContent?.invoke(binding.contentTv.text.toString())
         }
 
-        confirmTv.click {
-            onConfirm?.invoke(confirmTv.text.toString())
+        binding.confirmTv.click {
+            onConfirm?.invoke(binding.confirmTv.text.toString())
             dismiss()
         }
 
-        cancelTv.click {
-            onCancel?.invoke(cancelTv.text.toString())
+        binding.cancelTv.click {
+            onCancel?.invoke(binding.cancelTv.text.toString())
             dismiss()
         }
 
@@ -56,18 +59,18 @@ open class CommonDialog: DialogFragment() {
         val args = arguments ?: return
 
         val title = args.getString(EXTRA_TITLE) ?: ""
-        titleTv.isGone = title.isBlank()
-        titleTv.text = title
+        binding.titleTv.isGone = title.isBlank()
+        binding.titleTv.text = title
 
         val content = args.getCharSequence(EXTRA_CONTENT) ?: ""
-        contentTv.isGone = content.isBlank()
-        contentTv.text = content
+        binding.contentTv.isGone = content.isBlank()
+        binding.contentTv.text = content
 
-        confirmTv.text = args.getString(EXTRA_CONFIRM) ?: "确定"
+        binding.confirmTv.text = args.getString(EXTRA_CONFIRM) ?: "确定"
 
         val cancel = args.getString(EXTRA_CANCEL) ?: ""
-        cancelTv.isGone = cancel.isBlank()
-        cancelTv.text = cancel
+        binding.cancelTv.isGone = cancel.isBlank()
+        binding.cancelTv.text = cancel
     }
 
     fun setArgs(title: String, content: CharSequence, confirm: String, cancel: String) {

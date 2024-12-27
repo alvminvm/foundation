@@ -1,30 +1,34 @@
 package me.alzz.base
 
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.toolbar_title.*
+import me.alzz.base.databinding.ToolbarTitleBinding
 
 /**
  * Created by JeremyHe on 2018/3/25.
  */
 open class BaseActivity : AppCompatActivity() {
+    
+    private lateinit var toolbarBinding: ToolbarTitleBinding
 
-    override fun setContentView(layoutResID: Int) {
-        super.setContentView(layoutResID)
-
-        toolbar?.let {
-            setSupportActionBar(toolbar)
-            supportActionBar?.setDisplayShowTitleEnabled(toolbar.title.isNotEmpty())
+    override fun setContentView(view: View) {
+        super.setContentView(view)
+        toolbarBinding = ToolbarTitleBinding.bind(view)
+        
+        toolbarBinding.toolbar?.let {
+            setSupportActionBar(toolbarBinding.toolbar)
+            supportActionBar?.setDisplayShowTitleEnabled(toolbarBinding.toolbar.title.isNotEmpty())
         }
     }
 
     override fun setTitle(title: CharSequence?) {
-        if (titleTv == null) {
+        if (toolbarBinding.titleTv == null) {
             supportActionBar?.setDisplayShowTitleEnabled(true)
             super.setTitle(title)
         } else {
             super.setTitle("")
-            titleTv.text = title
+            toolbarBinding.titleTv.text = title
         }
     }
 
@@ -33,7 +37,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun setTitleGravity(gravity: Int) {
-        titleTv?.gravity = gravity
+        toolbarBinding.titleTv?.gravity = gravity
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

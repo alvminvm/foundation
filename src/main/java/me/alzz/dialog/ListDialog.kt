@@ -9,10 +9,8 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_common_dialog.cancelTv
-import kotlinx.android.synthetic.main.fragment_common_dialog.titleTv
-import kotlinx.android.synthetic.main.fragment_list_dialog.*
 import me.alzz.base.R
+import me.alzz.base.databinding.FragmentListDialogBinding
 import me.alzz.ext.click
 import me.alzz.ext.isGone
 import me.alzz.ext.isVisible
@@ -28,26 +26,29 @@ open class ListDialog: DialogFragment() {
     var onAdd: (() -> Unit)? = null
         set(value) {
             field = value
-            addTv?.isVisible = value != null
+            binding.addTv.isVisible = value != null
         }
     var onCancel: (() -> Unit)? = null
     var onDismiss: (() -> Unit)? = null
 
+    private lateinit var binding: FragmentListDialogBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_list_dialog, container, false)
+        binding = FragmentListDialogBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setStyle(STYLE_NO_TITLE, 0)
 
-        cancelTv.click {
+        binding.cancelTv.click {
             onCancel?.invoke()
             dismiss()
         }
 
-        addTv.isVisible = onAdd != null
-        addTv.click {
+        binding.addTv.isVisible = onAdd != null
+        binding.addTv.click {
             onAdd?.invoke()
             dismiss()
         }
@@ -64,11 +65,11 @@ open class ListDialog: DialogFragment() {
         val args = arguments ?: return
 
         val title = args.getString(EXTRA_TITLE) ?: ""
-        titleTv.isGone = title.isBlank()
-        titleTv.text = title
+        binding.titleTv.isGone = title.isBlank()
+        binding.titleTv.text = title
 
         val items = args.getStringArray(EXTRA_ITEMS) ?: arrayOf()
-        listRv.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        binding.listRv.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
                 val view = inflater.inflate(R.layout.item_list_dialog, parent, false)

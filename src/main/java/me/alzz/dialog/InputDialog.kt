@@ -10,12 +10,8 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import kotlinx.android.synthetic.main.fragment_common_dialog.*
-import kotlinx.android.synthetic.main.fragment_common_dialog.cancelTv
-import kotlinx.android.synthetic.main.fragment_common_dialog.confirmTv
-import kotlinx.android.synthetic.main.fragment_common_dialog.titleTv
-import kotlinx.android.synthetic.main.fragment_input_dialog.*
 import me.alzz.base.R
+import me.alzz.base.databinding.FragmentInputDialogBinding
 import me.alzz.ext.click
 import me.alzz.ext.isGone
 import org.jetbrains.anko.toast
@@ -30,19 +26,22 @@ open class InputDialog: DialogFragment() {
     var onConfirm: ((content: String) -> Unit)? = null
     var onCancel: (() -> Unit)? = null
     var onDismiss: (() -> Unit)? = null
+    
+    private lateinit var binding: FragmentInputDialogBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_input_dialog, container, false)
+        binding = FragmentInputDialogBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setStyle(STYLE_NO_TITLE, 0)
 
-        confirmTv.click {
-            val content = inputEt.text.toString().trim()
+        binding.confirmTv.click {
+            val content = binding.inputEt.text.toString().trim()
             if (content.isBlank()) {
-                context?.toast(inputEt.hint)
+                context?.toast(binding.inputEt.hint)
                 return@click
             }
 
@@ -50,14 +49,14 @@ open class InputDialog: DialogFragment() {
             dismiss()
         }
 
-        cancelTv.click {
+        binding.cancelTv.click {
             onCancel?.invoke()
             dismiss()
         }
 
-        inputEt.setOnEditorActionListener { _, actionId, _ ->
+        binding.inputEt.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                confirmTv.performClick()
+                binding.confirmTv.performClick()
                 true
             } else {
                 false
@@ -76,24 +75,24 @@ open class InputDialog: DialogFragment() {
         val args = arguments ?: return
 
         val title = args.getString(EXTRA_TITLE) ?: ""
-        titleTv.isGone = title.isBlank()
-        titleTv.text = title
+        binding.titleTv.isGone = title.isBlank()
+        binding.titleTv.text = title
 
-        inputEt.hint = args.getString(EXTRA_HINT) ?: "请输入..."
+        binding.inputEt.hint = args.getString(EXTRA_HINT) ?: "请输入..."
 
         val content = args.getString(EXTRA_CONTENT) ?: ""
-        inputEt.setText(content)
-        inputEt.requestFocus()
+        binding.inputEt.setText(content)
+        binding.inputEt.requestFocus()
 
-        confirmTv.text = args.getString(EXTRA_CONFIRM) ?: getString(R.string.action_confirm)
+        binding.confirmTv.text = args.getString(EXTRA_CONFIRM) ?: getString(R.string.action_confirm)
 
         showInputMethod()
     }
 
     private fun showInputMethod() {
-        inputEt.postDelayed({
+        binding.inputEt.postDelayed({
             val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(inputEt, InputMethodManager.SHOW_IMPLICIT)
+            imm.showSoftInput(binding.inputEt, InputMethodManager.SHOW_IMPLICIT)
         }, 200)
     }
 
