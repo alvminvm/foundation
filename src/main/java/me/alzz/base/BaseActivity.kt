@@ -2,42 +2,42 @@ package me.alzz.base
 
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import me.alzz.base.databinding.ToolbarTitleBinding
+import androidx.appcompat.widget.Toolbar
 
 /**
  * Created by JeremyHe on 2018/3/25.
  */
 open class BaseActivity : AppCompatActivity() {
-    
-    private lateinit var toolbarBinding: ToolbarTitleBinding
+
+    protected var toolbar: Toolbar? = null
+    private var titleTv: TextView? = null
 
     override fun setContentView(view: View) {
         super.setContentView(view)
-        toolbarBinding = ToolbarTitleBinding.bind(view)
-        
-        toolbarBinding.toolbar?.let {
-            setSupportActionBar(toolbarBinding.toolbar)
-            supportActionBar?.setDisplayShowTitleEnabled(toolbarBinding.toolbar.title.isNotEmpty())
+
+        toolbar = toolbar ?: view.findViewById(R.id.toolbar)
+        toolbar?.let {
+            setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayShowTitleEnabled(it.title.isNotEmpty())
         }
+
+        titleTv = titleTv ?: view.findViewById(R.id.titleTv)
     }
 
     override fun setTitle(title: CharSequence?) {
-        if (toolbarBinding.titleTv == null) {
+        if (titleTv == null) {
             supportActionBar?.setDisplayShowTitleEnabled(true)
             super.setTitle(title)
         } else {
             super.setTitle("")
-            toolbarBinding.titleTv.text = title
+            titleTv?.text = title
         }
     }
 
     override fun setTitle(titleId: Int) {
         title = getString(titleId)
-    }
-
-    fun setTitleGravity(gravity: Int) {
-        toolbarBinding.titleTv?.gravity = gravity
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -2,10 +2,11 @@ package me.alzz.base
 
 import android.os.Bundle
 import android.os.Handler
+import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
-import me.alzz.base.databinding.ToolbarTitleBinding
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 
 /**
  * Created by JeremyHe on 2018/3/31.
@@ -17,18 +18,20 @@ open class BaseFragment: Fragment() {
     var title: String? = null
         set(value) {
             field = value
-            afterAdd { binding.titleTv?.text = title }
+            afterAdd { titleTv?.text = title }
         }
-
-    private lateinit var binding: ToolbarTitleBinding
 
     init { arguments = Bundle() }
 
+    private var toolbar: Toolbar? = null
+    private var titleTv: TextView? = null
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding = ToolbarTitleBinding.bind(requireView())
-        binding.toolbar?.let {
-            (activity as? AppCompatActivity)?.setSupportActionBar(binding.toolbar)
+        toolbar = toolbar ?: view?.findViewById(R.id.toolbar)
+        titleTv = titleTv ?: view?.findViewById(R.id.titleTv)
+        toolbar?.let {
+            (activity as? AppCompatActivity)?.setSupportActionBar(it)
             (activity as? AppCompatActivity)?.supportActionBar?.setDisplayShowTitleEnabled(false)
         }
     }

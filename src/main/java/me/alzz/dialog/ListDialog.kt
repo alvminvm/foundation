@@ -26,7 +26,9 @@ open class ListDialog: DialogFragment() {
     var onAdd: (() -> Unit)? = null
         set(value) {
             field = value
-            binding.addTv.isVisible = value != null
+            if (::binding.isInitialized) {
+                binding.addTv.isVisible = value != null
+            }
         }
     var onCancel: (() -> Unit)? = null
     var onDismiss: (() -> Unit)? = null
