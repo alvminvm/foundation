@@ -105,11 +105,11 @@ fun View.animHeightTo(target: Int, endAction: (()->Unit)?) {
     }
 
     anim.addListener(object : Animator.AnimatorListener {
-        override fun onAnimationRepeat(animation: Animator?) { }
-        override fun onAnimationCancel(animation: Animator?) { }
-        override fun onAnimationStart(animation: Animator?) { }
+        override fun onAnimationRepeat(animation: Animator) { }
+        override fun onAnimationCancel(animation: Animator) { }
+        override fun onAnimationStart(animation: Animator) { }
 
-        override fun onAnimationEnd(animation: Animator?) {
+        override fun onAnimationEnd(animation: Animator) {
             endAction ?: return
             view.post(endAction)
         }
